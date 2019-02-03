@@ -11,13 +11,15 @@ namespace DNWS
     protected string _filename;
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
-
+    
     protected string _body;
 
     protected int _status;
 
     protected string _method;
 
+    protected string info;
+    
     public string Url
     {
       get { return _url;}
@@ -44,6 +46,7 @@ namespace DNWS
     }
     public HTTPRequest(string request)
     {
+       info = request;
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
 
@@ -86,7 +89,7 @@ namespace DNWS
         string[] pair = Regex.Split(lines[i], ": "); //FIXME
         if(pair.Length == 0) continue;
         if(pair.Length == 1) { // handle post body
-          if(pair[0].Length > 1) { //FIXME, this is a quick hack
+          if(pair[0].Length > 1 ) { //FIXME, this is a quick hack
             Dictionary<string, string> _bodys = pair[0].Split('&').Select(x => x.Split('=')).ToDictionary(x => x[0].ToLower(), x => x[1]);
             _requestListDictionary = _requestListDictionary.Concat(_bodys).ToDictionary(x=>x.Key, x=>x.Value);
           }
@@ -120,5 +123,10 @@ namespace DNWS
     {
       _requestListDictionary[key.ToLower()] = value;
     }
-  }
+
+    public string ClientInfo
+    {
+       get { return info; }
+    }
+    }
 }
