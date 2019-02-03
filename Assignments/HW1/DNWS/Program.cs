@@ -269,6 +269,9 @@ namespace DNWS
                     serverSocket.Bind(localEndPoint);
                     serverSocket.Listen(5);
                     _parent.Log("Server started at port " + _port + ".");
+                    //code from https://stackoverflow.com/questions/21155352/get-ip-address-of-client-machine
+                    IPAddress[] addr = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;                                      
+                    _parent.Log("Client IP: : " + addr[1].ToString() );
                     break;
                 }
                 catch (Exception ex)
@@ -298,7 +301,7 @@ namespace DNWS
 
                 }
             }
-
         }
+     
     }
 }
