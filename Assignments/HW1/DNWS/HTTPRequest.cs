@@ -9,6 +9,7 @@ namespace DNWS
   {
     protected string _url;
     protected string _filename;
+    protected string _ip;
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
     
@@ -44,6 +45,17 @@ namespace DNWS
     {
       get {return _method;}
     }
+
+    public void SetIP (string ipport)
+    {
+       _ip = ipport; 
+    }
+
+    public string GetIP()
+    {
+       return _ip;
+    }
+
     public HTTPRequest(string request)
     {
        info = request;

@@ -11,8 +11,8 @@ namespace DNWS
 {
     class ClientInfoPlugin : IPlugin 
     {
-        
-    protected static Dictionary<String, int> statDictionary = null;
+
+        protected static Dictionary<String, int> statDictionary = null;
         public ClientInfoPlugin()
         {
             if (statDictionary == null)
@@ -41,13 +41,13 @@ namespace DNWS
             string info = request.ClientInfo;
             string[] lines = Regex.Split(info, "\\n");
 
-            sb.Append("<html><body><h1>Client IP:" + "</h1>");
-            sb.Append("<h1>Client Port: </h1>");
+            string ClientIPport = request.GetIP();
+            string[] IPport = Regex.Split(ClientIPport, ":");
+            sb.Append("<html><body><h1>Client IP:" + IPport[0]+"</h1>");
+            sb.Append("<h1>Client Port:"+IPport[1] +"</h1>");
             sb.Append("<h1>" + lines[5] + "</h1>");
             sb.Append("<h1>" + lines[8] + "</h1>");
             sb.Append("<h1>"+ lines[7] + "</h1>");
-            //string IPAddress = GetIPAddress();
-        
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
@@ -58,26 +58,5 @@ namespace DNWS
         {
             throw new NotImplementedException();
         }
-
-
-        //public string GetIPAddress()
-        //{
-        //    IPHostEntry Host = default(IPHostEntry);
-        //    string Hostname = null;
-        //    string IPaddress_client = null;
-        //    Hostname = Environment.MachineName;
-        //    Host = Dns.GetHostEntry(Hostname);
-
-        //    foreach (IPAddress IP in Host.AddressList)
-        //    {
-        //        if (IP.AddressFamily == AddressFamily.InterNetwork)
-        //        {
-        //            IPaddress_client = Convert.ToString(IP);
-        //        }
-        //    }
-        //    return IPaddress_client;
-        //Ref : https://stackoverflow.com/questions/21155352/get-ip-address-of-client-machine
-        //}
-        
     }
 }
