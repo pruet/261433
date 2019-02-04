@@ -60,7 +60,8 @@ namespace DNWS
     {
        get { return info; } //Get information of client such as Browser information
     }
-        public HTTPRequest(string request)
+
+    public HTTPRequest(string request)
     {
        info = request;
       _propertyListDictionary = new Dictionary<string, string>();
@@ -100,10 +101,9 @@ namespace DNWS
       }
 
       if(lines.Length == 1) return;
-
-      for(int i = 1; i != lines.Length; i++) {
+      for (int i = 1; i != lines.Length; i++) {
         string[] pair = Regex.Split(lines[i], ": "); //FIXME
-        if(pair.Length == 0) continue;
+        if (pair.Length == 0) continue;
         if(pair.Length == 1) { // handle post body
           if(pair[0].Length > 1 ) { //FIXME, this is a quick hack
             Dictionary<string, string> _bodys = pair[0].Split('&').Select(x => x.Split('=')).ToDictionary(x => x[0].ToLower(), x => x[1]);
