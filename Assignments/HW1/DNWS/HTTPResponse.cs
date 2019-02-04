@@ -42,7 +42,7 @@ namespace DNWS
                         headerResponse.Append("200 OK");
                         break;
                     case 401:
-                        headerResponse.Append("401 Unauthorized");
+                        headerResponse.Append("401 Unauthorized"); //401 Unauthorized
                         break;
                     case 400:
                         headerResponse.Append("400 Bad Request");
