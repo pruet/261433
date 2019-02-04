@@ -9,7 +9,7 @@ namespace DNWS
   {
     protected string _url;
     protected string _filename;
-    protected string _ip;
+    protected string _ip; //for contain ip and port client
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
     
@@ -45,18 +45,22 @@ namespace DNWS
     {
       get {return _method;}
     }
-
-    public void SetIP (string ipport)
+    //Encapsulation
+    public void SetIP (string ipport) //set ip and port to _ip
     {
        _ip = ipport; 
     }
 
-    public string GetIP()
+    public string GetIP() //Get _ip (ip and port client)
     {
        return _ip;
     }
-
-    public HTTPRequest(string request)
+    
+    public string ClientInfo
+    {
+       get { return info; } //Get information of client such as Browser information
+    }
+        public HTTPRequest(string request)
     {
        info = request;
       _propertyListDictionary = new Dictionary<string, string>();
@@ -68,7 +72,7 @@ namespace DNWS
       }
 
       string[] statusLine = Regex.Split(lines[0], "\\s");
-      if(statusLine.Length != 4) { // too short something is wrong
+      if(statusLine.Length != 4) { // too short something is wrong (It was fixed by add 401 authorization case at HTTPResponse class)
         _status = 401;
         return;
       }
@@ -135,10 +139,6 @@ namespace DNWS
     {
       _requestListDictionary[key.ToLower()] = value;
     }
-
-    public string ClientInfo
-    {
-       get { return info; }
-    }
-    }
+   
+   }
 }
