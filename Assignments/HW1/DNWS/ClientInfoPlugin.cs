@@ -43,9 +43,9 @@ namespace DNWS
 
             sb.Append("<html><body><h1>Client IP:" + "</h1>");
             sb.Append("<h1>Client Port: </h1>");
-            sb.Append("<h1>Browser Information" + lines[5].Substring(10) + "</h1>");
-            sb.Append("<h1>Accept Language" + lines[8].Substring(15) + "</h1>");
-            sb.Append("<h1>Accept Encoding"+ lines[7].Substring(15) + "</h1>");
+            sb.Append("<h1>" + lines[5] + "</h1>");
+            sb.Append("<h1>" + lines[8] + "</h1>");
+            sb.Append("<h1>"+ lines[7] + "</h1>");
             //string IPAddress = GetIPAddress();
         
             sb.Append("</body></html>");
