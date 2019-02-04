@@ -34,16 +34,20 @@ namespace DNWS
         {
             HTTPResponse response = null; //Declare response with HTTPResponse type
             StringBuilder sb = new StringBuilder(); //Build web page
+
             string info = request.ClientInfo; //Get infomation of Client such as Browser information etc.
             string[] lines = Regex.Split(info, "\\n"); //Split line with \\n
+
             string ClientIPport = request.GetIP(); //Get Client Ip and port number
             string[] IPport = Regex.Split(ClientIPport, ":"); //Slipt line ip and port with :
-            sb.Append("<html><body><h1>Client IP: " + IPport[0]+"</h1>"); //IP
-            sb.Append("<h1>Client Port: "+IPport[1] +"</h1>"); //Port
-            sb.Append("<h1>Browser Information" + lines[5].Substring(10) + "</h1>"); //Browser Information
-            sb.Append("<h1>Accept Language" + lines[8].Substring(15) + "</h1>"); //Accept Language
-            sb.Append("<h1>Accept Encoding" + lines[7].Substring(15) + "</h1>"); //Accpet Encoding
+
+            sb.Append("<html style=\"font-family: Consolas, monaco, monospace; font-size:20px;\"><body><div>Client IP: " + IPport[0]+"</div><br>"); //IP
+            sb.Append("<div>Client Port: "+ IPport[1] + "</div><br>"); //Port
+            sb.Append("<div>Browser Information" + lines[5].Substring(10) + "</div><br>"); //Browser Information
+            sb.Append("<div>" + lines[8] + "</div><br>"); //Accept Language
+            sb.Append("<div>" + lines[7] + "</div><br>"); //Accpet Encoding
             sb.Append("</body></html>"); //End tag html
+
             response = new HTTPResponse(200); //200 ok
             response.body = Encoding.UTF8.GetBytes(sb.ToString()); //Encode UTF8
             return response; //Return response
