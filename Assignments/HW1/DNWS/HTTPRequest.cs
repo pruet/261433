@@ -18,6 +18,14 @@ namespace DNWS
 
     protected string _method;
 
+    protected string _line;
+
+    public string line
+        {
+            get { return _line; }
+        }
+
+
     public string Url
     {
       get { return _url;}
@@ -47,13 +55,15 @@ namespace DNWS
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
 
+            _line = request;
+
       if(lines.Length == 0) {
         _status = 500;
         return;
       }
 
       string[] statusLine = Regex.Split(lines[0], "\\s");
-      if(statusLine.Length != 4) { // too short something is wrong
+      if(statusLine.Length != 4) { // too short something is wrong 
         _status = 401;
         return;
       }
@@ -86,7 +96,7 @@ namespace DNWS
         string[] pair = Regex.Split(lines[i], ": "); //FIXME
         if(pair.Length == 0) continue;
         if(pair.Length == 1) { // handle post body
-          if(pair[0].Length > 1) { //FIXME, this is a quick hack
+          if(pair[0].Length > 1) { //FIXME, this is a quick hack 
             Dictionary<string, string> _bodys = pair[0].Split('&').Select(x => x.Split('=')).ToDictionary(x => x[0].ToLower(), x => x[1]);
             _requestListDictionary = _requestListDictionary.Concat(_bodys).ToDictionary(x=>x.Key, x=>x.Value);
           }
@@ -95,6 +105,7 @@ namespace DNWS
         }
       }
     }
+
     public string getPropertyByKey(string key)
     {
       if(_propertyListDictionary.ContainsKey(key.ToLower())) {

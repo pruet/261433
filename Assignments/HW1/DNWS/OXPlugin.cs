@@ -278,7 +278,7 @@ namespace DNWS
             HTTPResponse response = new HTTPResponse(200);
             StringBuilder sb = new StringBuilder();
             Dictionary<String, String> parameters = new Dictionary<string, string>();
-            sb.Append("<h1>OX Game</h1>");
+            sb.Append("<h1>OX game</h1>");
             String[] parts = Regex.Split(request.Filename, "[?]");
             if (parts.Length > 1)
             {
