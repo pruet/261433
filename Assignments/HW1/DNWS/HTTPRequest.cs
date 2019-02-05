@@ -18,9 +18,9 @@ namespace DNWS
 
     protected string _method;
 
-    protected string _line;
+    protected string _line; // it is equal to request
 
-    public string line
+    public string line // use string name line for bring infomations in request to call in clientinfoPlugin class
         {
             get { return _line; }
         }
@@ -55,7 +55,7 @@ namespace DNWS
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
 
-            _line = request;
+            _line = request; 
 
       if(lines.Length == 0) {
         _status = 500;
