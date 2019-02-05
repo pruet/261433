@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Text;
-
-namespace DNWS
+// build clientinfoPlugin class
+namespace DNWS 
 {
     class clientinfoPlugin : IPlugin
     {
@@ -33,9 +33,12 @@ namespace DNWS
         {
             HTTPResponse response = null;
             StringBuilder sb = new StringBuilder();
-         
+            string ip = request.IPclient;
+      
             string x = request.line;
+            //split each lines
             string[] lines = Regex.Split(x, "\\n");
+        
             //add some informations
             sb.Append("<html><body><h1>Client IP address:</h1>");
             sb.Append("<h1>Client Port:</h1>");

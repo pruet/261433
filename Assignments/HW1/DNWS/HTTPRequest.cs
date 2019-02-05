@@ -17,6 +17,7 @@ namespace DNWS
     protected int _status;
 
     protected string _method;
+    protected string _IPclient;
 
     protected string _line; // it is equal to request
 
@@ -24,7 +25,10 @@ namespace DNWS
         {
             get { return _line; }
         }
-
+    public string IPclient
+        {
+            get { return _IPclient; }
+        }
 
     public string Url
     {
@@ -63,6 +67,9 @@ namespace DNWS
       }
 
       string[] statusLine = Regex.Split(lines[0], "\\s");
+
+         
+
       if(statusLine.Length != 4) { // too short something is wrong 
         _status = 401;
         return;

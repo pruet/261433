@@ -18,9 +18,9 @@
     {
       "Path": "clientinfo",
       "Class": "DNWS.clientinfoPlugin",
-      "Preprocessing": "false",
-      "Postprocessing": "false"
-
+      "Preprocessing": "true",
+      "Postprocessing": "false",
+      "Singpleton": "false"
     }
     
   ]

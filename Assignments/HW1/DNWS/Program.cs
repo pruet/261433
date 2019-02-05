@@ -51,35 +51,44 @@ namespace DNWS
             protected bool _postprocessing;
             protected IPlugin _reference;
 
+
             public string path
             {
-                get { return _path;}
-                set {_path = value;}
+                get { return _path; }
+                set { _path = value; }
             }
             public string type
             {
-                get { return _type;}
-                set {_type = value;}
+                get { return _type; }
+                set { _type = value; }
             }
             public bool preprocessing
             {
-                get { return _preprocessing;}
-                set {_preprocessing = value;}
+                get { return _preprocessing; }
+                set { _preprocessing = value; }
             }
             public bool postprocessing
             {
-                get { return _postprocessing;}
-                set {_postprocessing = value;}
+                get { return _postprocessing; }
+                set { _postprocessing = value; }
             }
             public IPlugin reference
             {
-                get { return _reference;}
-                set {_reference = value;}
+                get { return _reference; }
+                set { _reference = value; }
             }
+
+
+
         }
         // Get config from config manager, e.g., document root and port
         protected string ROOT = Program.Configuration["DocumentRoot"];
         protected Socket _client;
+        public Socket IPclient
+        {
+            get { return _client; }
+            set { _client = value; }
+        }
         protected Program _parent;
         protected Dictionary<string, PluginInfo> plugins;
 
@@ -90,6 +99,7 @@ namespace DNWS
         /// <param name="parent">Parent ref</param>
         public HTTPProcessor(Socket client, Program parent)
         {
+
             _client = client;
             _parent = parent;
             plugins = new Dictionary<string, PluginInfo>();
@@ -152,12 +162,14 @@ namespace DNWS
         /// </summary>
         public void Process()
         {
+
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
             HTTPRequest request = null;
             HTTPResponse response = null;
             byte[] bytes = new byte[1024];
             int bytesRead;
+
 
             // Read all request
             do
@@ -167,11 +179,12 @@ namespace DNWS
             } while (ns.DataAvailable);
 
             request = new HTTPRequest(requestStr);
-            request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
-
+            request.addProperty("RemoteEndPoint", IPclient.RemoteEndPoint.ToString());//change _client to IPclient
+            request.getPropertyByKey(IPclient.RemoteEndPoint.ToString());
             // We can handle only GET now
-            if(request.Status != 200) {
+            if (request.Status != 200) {
                 response = new HTTPResponse(request.Status);
+                
             }
             else
             {
