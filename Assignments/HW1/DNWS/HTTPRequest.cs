@@ -7,6 +7,7 @@ namespace DNWS
 {
   public class HTTPRequest
   {
+    protected string info;
     protected string _url;
     protected string _filename;
     protected static Dictionary<string, string> _propertyListDictionary = null;
@@ -17,7 +18,11 @@ namespace DNWS
     protected int _status;
 
     protected string _method;
-
+    
+    public string Info
+        {
+            get { return info; }
+        }
     public string Url
     {
       get { return _url;}
@@ -45,8 +50,8 @@ namespace DNWS
     public HTTPRequest(string request)
     {
       _propertyListDictionary = new Dictionary<string, string>();
-      string[] lines = Regex.Split(request, "\\n");
-
+      string[] lines = Regex.Split(request, "\\n");  
+      info = request;
       if(lines.Length == 0) {
         _status = 500;
         return;
