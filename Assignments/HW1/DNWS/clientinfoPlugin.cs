@@ -12,7 +12,6 @@ namespace DNWS
             if (statDictionary == null)
             {
                 statDictionary = new Dictionary<String, int>();
-
             }
         }
 
@@ -32,15 +31,21 @@ namespace DNWS
       string box= request.info;
       HTTPResponse response = null;
       StringBuilder sb = new StringBuilder();
-      sb.Append("<html><body><h2>Client IP:</h2>");
+      string[] cli_info = request.getPropertyByKey("RemoteEndpoint").Split(':');
+      sb.Append("<html><body><p>Client IP: "+ cli_info[0] +"</p>");
       foreach (KeyValuePair<String, int> entry in statDictionary)
       {
         sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
       }
-      sb.Append("</body><h2>Client Port:</h2></html>");
-      sb.Append("</body><h2>Browser Information:</h2></html>");
-      sb.Append("</body><h2>Acept Language: "+ box +" </h2></html>");
-      sb.Append("</body><h2>Acept Encoding:</h2></html>");
+      string[] split1 = box.Split("User-Agent:");
+      string[] split2 = box.Split("Accept-Encoding");
+      string[] split3 = box.Split("Accept-Language");
+      string[] ac_lang = split2[1].Split("Accept-Language");
+      string[] browser = split1[1].Split("Accept");
+      sb.Append("</body><p>Client Port: "+ cli_info[1] +"</p></html>");
+      sb.Append("</body><p>Browser Information: "+ browser[0] + "</p></html>");
+      sb.Append("</body><p>Acept-Language " + split3[1] + "</p></html>");
+      sb.Append("</body><p>Acept-Encoding "+ ac_lang[0] +"</p></html>");
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
       return response;

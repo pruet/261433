@@ -10,7 +10,7 @@ namespace DNWS
     protected string _url;
     protected string _filename;
     protected string _info;
-    protected string[] _collect;
+    
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
 
@@ -19,12 +19,7 @@ namespace DNWS
     protected int _status;
 
     protected string _method;
-    /*
-    public string[] _collect
-    {
-      get { return _collect}
-    }
-    */
+    
     public string info
     {
       get { return _info; }
