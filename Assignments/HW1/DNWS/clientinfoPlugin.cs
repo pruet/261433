@@ -42,11 +42,11 @@ namespace DNWS
             //split :User-Agent
             string[] i = lines[5].Split(':');
             //add some informations
-            sb.Append("<html><body><h2>Client IP address:"+ip_port[0] + "</h2>");
-            sb.Append("<h2>Client Port:"+ip_port[1]+"</h2>");
-            sb.Append("<h2>Browser Information:"+ i[1]+"</h2>");
-            sb.Append( "<h2>"+ lines[8] + "</h2>");
-            sb.Append( "<h2>"+ lines[7]+"</h2>");
+            sb.Append("<html><body><p>Client IP address:"+ip_port[0] + "</p>");
+            sb.Append("<p>Client Port:"+ip_port[1]+"</p>");
+            sb.Append("<p>Browser Information:"+ i[1]+"</p>");
+            sb.Append( "<p>"+ lines[8] + "</p>");
+            sb.Append( "<p>"+ lines[7]+"</p>");
             foreach (KeyValuePair<String, int> entry in statDictionary)
             {
                 sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
