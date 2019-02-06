@@ -168,7 +168,7 @@ namespace DNWS
                 requestStr += Encoding.UTF8.GetString(bytes, 0, bytesRead);
             } while (ns.DataAvailable);
             request = new HTTPRequest(requestStr);
-            request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
+            //request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
             //new way to save client ip&port
             request.addProperty("IP",((IPEndPoint)_client.RemoteEndPoint).Address.ToString());
             request.addProperty("PORT",((IPEndPoint)_client.RemoteEndPoint).Port.ToString());

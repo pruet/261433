@@ -125,7 +125,7 @@ namespace DNWS
     public string getPropertyList(){
         List<string> keyList = new List<string>(_propertyListDictionary.Keys);
         foreach(string temp in keyList){
-            _keyList += temp.ToString() + " | ";
+            _keyList += temp.ToString() + " : " + this.getPropertyByKey(temp) + "\n";
         }
         return _keyList;
     }
