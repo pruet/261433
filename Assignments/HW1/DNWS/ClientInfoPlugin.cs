@@ -39,7 +39,7 @@ namespace DNWS
             string[] lines = Regex.Split(info, "\\n"); //Split line with \\n
 
             string ClientIPport = request.GetIP(); //Get Client Ip and port number
-            string[] IPport = Regex.Split(ClientIPport, ":"); //Slipt line ip and port with :
+            string[] IPport = Regex.Split(ClientIPport, ":"); //Split line ip and port with :
 
             sb.Append("<html style=\"font-family: Consolas, monaco, monospace; font-size:20px;\"><body><div>Client IP: " + IPport[0]+"</div><br>"); //IP
             sb.Append("<div>Client Port: "+ IPport[1] + "</div><br>"); //Port
