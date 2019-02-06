@@ -16,7 +16,7 @@
       "Postprocessing": "false"
     },
     {
-      "Path": "client",
+      "Path": "clientinfo",
       "Class": "DNWS.ClientPlugin",
       "Preprocessing": "false",
       "Postprocessing": "false"
