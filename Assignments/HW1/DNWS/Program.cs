@@ -170,12 +170,12 @@ namespace DNWS
             //log request
             //_parent.Log(request.ToString());
             //_parent.Log("IP & Port :" + _client.RemoteEndPoint.ToString());
-            _parent.Log("Status : " + request.Status.ToString());
-            _parent.Log("Client IP : " + IPAddress.Parse(((IPEndPoint)_client.RemoteEndPoint).Address.ToString()));
-            _parent.Log("Client Port : " + ((IPEndPoint)_client.RemoteEndPoint).Port.ToString());
-            _parent.Log("Browser Information : " + request.getPropertyByKey("User-Agent"));
-            _parent.Log("Accept Language : " + request.getPropertyByKey("Accept-Language"));
-            _parent.Log("Accept Encoding: " + request.getPropertyByKey("Accept-Encoding"));
+            //_parent.Log("Status : " + request.Status.ToString());
+            //_parent.Log("Client IP : " + IPAddress.Parse(((IPEndPoint)_client.RemoteEndPoint).Address.ToString()));
+            //_parent.Log("Client Port : " + ((IPEndPoint)_client.RemoteEndPoint).Port.ToString());
+            //_parent.Log("Browser Information : " + request.getPropertyByKey("User-Agent"));
+            //_parent.Log("Accept Language : " + request.getPropertyByKey("Accept-Language"));
+            //_parent.Log("Accept Encoding: " + request.getPropertyByKey("Accept-Encoding"));
             //_parent.Log(requestStr);
             //_parent.Log("Browser Information : " + request.getPropertyByKey("User-Agent"));
             // We can handle only GET now
@@ -220,19 +220,19 @@ namespace DNWS
      
             // Generate response
             // Create str to response
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<html><body>");
-            sb.Append("Client IP : " + IPAddress.Parse(((IPEndPoint)_client.RemoteEndPoint).Address.ToString ()) + "<br />");
-            sb.Append("Client Port : " + ((IPEndPoint)_client.RemoteEndPoint).Port.ToString() + "<br />");
-            sb.Append("Browser Information : " + request.getPropertyByKey("User-Agent") + "<br />");
-            sb.Append("Accept Language : " + request.getPropertyByKey("Accept-Language") + "<br />");
-            sb.Append("Accept Encoding: " + request.getPropertyByKey("Accept-Encoding") + "<br />");
-            sb.Append("</body></html>");
+            //StringBuilder sb = new StringBuilder();
+            //sb.Append("<html><body>");
+            //sb.Append("Client IP : " + IPAddress.Parse(((IPEndPoint)_client.RemoteEndPoint).Address.ToString ()) + "<br />");
+            //sb.Append("Client Port : " + ((IPEndPoint)_client.RemoteEndPoint).Port.ToString() + "<br />");
+            //sb.Append("Browser Information : " + request.getPropertyByKey("User-Agent") + "<br />");
+            //sb.Append("Accept Language : " + request.getPropertyByKey("Accept-Language") + "<br />");
+            //sb.Append("Accept Encoding: " + request.getPropertyByKey("Accept-Encoding") + "<br />");
+            //sb.Append("</body></html>");
             //response this valuable
 
             ns.Write(Encoding.UTF8.GetBytes(response.header), 0, response.header.Length);
             if(response.body != null) {
-              response.body = Encoding.UTF8.GetBytes(sb.ToString());
+              //response.body = Encoding.UTF8.GetBytes(sb.ToString());
               ns.Write(response.body, 0, response.body.Length);
             }
 
@@ -261,6 +261,7 @@ namespace DNWS
             _port = port;
             _parent = parent;
             id = 0;
+            //_parent.Log("ID : " + id.ToString());
         }
 
         /// <summary>
@@ -310,6 +311,7 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
+                   
                     // Single thread
                     hp.Process();
                     // End single therad
