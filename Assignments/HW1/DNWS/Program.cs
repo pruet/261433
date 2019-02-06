@@ -87,7 +87,7 @@ namespace DNWS
         public Socket IPclient
         {
             get { return _client; }
-            set { _client = value; }
+            
         }
         protected Program _parent;
         protected Dictionary<string, PluginInfo> plugins;
@@ -103,6 +103,7 @@ namespace DNWS
             _client = client;
             _parent = parent;
             plugins = new Dictionary<string, PluginInfo>();
+       
             // load plugins
             var sections = Program.Configuration.GetSection("Plugins").GetChildren();
             foreach(ConfigurationSection section in sections) {
@@ -179,8 +180,8 @@ namespace DNWS
             } while (ns.DataAvailable);
 
             request = new HTTPRequest(requestStr);
-            request.addProperty("RemoteEndPoint", IPclient.RemoteEndPoint.ToString());//change _client to IPclient
-            request.getPropertyByKey(IPclient.RemoteEndPoint.ToString());
+            request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
+            
             // We can handle only GET now
             if (request.Status != 200) {
                 response = new HTTPResponse(request.Status);
@@ -202,6 +203,9 @@ namespace DNWS
                         processed = true;
                     }
                 }
+
+                
+
                 // local file
                 if(!processed) {
                     if (request.Filename.Equals(""))
@@ -213,8 +217,21 @@ namespace DNWS
                         response = getFile(ROOT + "/" + request.Filename);
                     }
                 }
+                //get IP
+                if (!processed)
+                {
+                    if (request.IPclient.Equals(""))
+                    {
+                        response = getFile(ROOT + "/index.html");
+                    }
+                    else
+                    {
+                        response = getFile(ROOT + "/" + request.IPclient);
+                    }
+                }
+
                 // post processing pipe
-                foreach(KeyValuePair<string, PluginInfo> plugininfo in plugins) {
+                foreach (KeyValuePair<string, PluginInfo> plugininfo in plugins) {
                     if(plugininfo.Value.postprocessing) {
                         response = plugininfo.Value.reference.PostProcessing(response);
                     }

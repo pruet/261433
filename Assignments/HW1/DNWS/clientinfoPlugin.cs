@@ -33,18 +33,20 @@ namespace DNWS
         {
             HTTPResponse response = null;
             StringBuilder sb = new StringBuilder();
-            string ip = request.IPclient;
-      
-            string x = request.line;
+            //int ip = request.IPclient;
+            string[] ip_port = request.getPropertyByKey("RemoteEndpoint").Split(':'); // create string array ip_port to split between ip and port
+            request.getPropertyByKey("RemoteEndpoint"); // to call ip and port
+            string x = request.line;//create string x to split between line
             //split each lines
             string[] lines = Regex.Split(x, "\\n");
-        
+            //split :User-Agent
+            string[] i = lines[5].Split(':');
             //add some informations
-            sb.Append("<html><body><h1>Client IP address:</h1>");
-            sb.Append("<h1>Client Port:</h1>");
-            sb.Append("<h1>Browser Information:" + lines[5]+"</h1>");
-            sb.Append( "<h1>"+ lines[8] + "</h1>");
-            sb.Append( "<h1>"+ lines[7]+"</h1>");
+            sb.Append("<html><body><h2>Client IP address:"+ip_port[0] + "</h2>");
+            sb.Append("<h2>Client Port:"+ip_port[1]+"</h2>");
+            sb.Append("<h2>Browser Information:"+ i[1]+"</h2>");
+            sb.Append( "<h2>"+ lines[8] + "</h2>");
+            sb.Append( "<h2>"+ lines[7]+"</h2>");
             foreach (KeyValuePair<String, int> entry in statDictionary)
             {
                 sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");

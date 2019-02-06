@@ -59,8 +59,8 @@ namespace DNWS
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
 
-            _line = request; 
-
+            _line = request;
+            _IPclient = request;
       if(lines.Length == 0) {
         _status = 500;
         return;
@@ -101,6 +101,7 @@ namespace DNWS
 
       for(int i = 1; i != lines.Length; i++) {
         string[] pair = Regex.Split(lines[i], ": "); //FIXME
+                _IPclient = pair[pair.Length - 1];
         if(pair.Length == 0) continue;
         if(pair.Length == 1) { // handle post body
           if(pair[0].Length > 1) { //FIXME, this is a quick hack 
