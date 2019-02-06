@@ -32,10 +32,13 @@ namespace DNWS
             //teach by purit 600611039 and REF:https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
             HTTPResponse response = null;
             StringBuilder sb = new StringBuilder();
-            sb.Append(request.getPropertyByKey("RemoteEndPoint") + "<br>");
-            sb.Append(request.getPropertyByKey("User-Agent")); 
-			sb.Append(request.getPropertyByKey("Accept-Language")); 
-            sb.Append(request.getPropertyByKey("Accept-Encoding"));
+            string port_ip = request.getPropertyByKey("RemoteEndPoint"); //GET ip and port of client.
+            string []ans = port_ip.Split(':'); //Split ip and port by :.
+            sb.Append("<br>Clinet IP : " + ans[0]); //show ip 
+            sb.Append("<br>Client Port : " + ans[1]); //show port
+            sb.Append("<br>Browser Information :" + request.getPropertyByKey("User-Agent"));  //show Browser Information.
+			sb.Append("<br>Accept-Charset : " + request.getPropertyByKey("Accept-Language"));  //show support Language.
+            sb.Append("<br>Accept-Encoding : " + request.getPropertyByKey("Accept-Encoding")); //show Encoding.
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
             return response;
