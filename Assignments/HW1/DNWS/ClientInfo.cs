@@ -4,10 +4,10 @@ using System.Text;
 
 namespace DNWS
 {
-  class ConfigMyPlugin : IPlugin
+  class ClientInfo : IPlugin
   {
     protected static Dictionary<String, int> statDictionary = null;
-    public ConfigMyPlugin()
+    public ClientInfo()
     {
       if (statDictionary == null)
       {
