@@ -14,6 +14,12 @@
             "Class" : "DNWS.OXPlugin",
             "Preprocessing" : "false",
             "Postprocessing" :"false" 
+        },
+        {
+            "Path" : "clientinfo",
+            "Class" : "DNWS.ClientPlugin",
+            "Preprocessing" : "false",
+            "Postprocessing" :"false" 
         }
     ]
 }
