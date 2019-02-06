@@ -168,7 +168,7 @@ namespace DNWS
 
             request = new HTTPRequest(requestStr);
             request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
-
+            request.setip(_client.RemoteEndPoint.ToString()); // These will setip by used function from HTTPRequest we had create
             // We can handle only GET now
             if(request.Status != 200) {
                 response = new HTTPResponse(request.Status);

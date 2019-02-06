@@ -44,6 +44,10 @@ namespace DNWS
                     case 400:
                         headerResponse.Append("400 Bad Request");
                         break;
+                    /*It's no case 401 here so add it.*/
+                    case 401:
+                        headerResponse.Append("401 Unauthorized");
+                        break;
                     case 403:
                         headerResponse.Append("403 Forbidden");
                         break;
