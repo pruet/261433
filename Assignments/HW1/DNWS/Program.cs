@@ -158,7 +158,7 @@ namespace DNWS
             HTTPResponse response = null;
             byte[] bytes = new byte[1024];
             int bytesRead;
-
+            
             // Read all request
             do
             {
@@ -168,7 +168,8 @@ namespace DNWS
 
             request = new HTTPRequest(requestStr);
             request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
-
+            _parent.Log(requestStr);////////////////////////////////////
+            //_parent.Log(request);
             // We can handle only GET now
             if(request.Status != 200) {
                 response = new HTTPResponse(request.Status);
@@ -258,6 +259,7 @@ namespace DNWS
         /// <summary>
         /// Server starting point
         /// </summary>
+        
         public void Start()
         {
             while (true) {
@@ -285,7 +287,15 @@ namespace DNWS
                     // Wait for client
                     clientSocket = serverSocket.Accept();
                     // Get one, show some info
-                    _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
+                    //_parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
+                    _parent.Log("Client IP: " + IPAddress.Parse (((IPEndPoint)clientSocket.RemoteEndPoint).Address.ToString ()));//My friend Tune teach me his code is 600611030 he told me to learn from https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.remoteendpoint?view=netframework-4.7.2
+                    _parent.Log("Client Port: " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));//My friend Tune teach me his code is 600611030 he told me to learn from https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.remoteendpoint?view=netframework-4.7.2
+                    _parent.Log("Browser " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
+                    _parent.Log("Accept Language " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
+                    _parent.Log("Accept Encoding: " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
+                    //_parent.Log(HTTPProcessor.Process.requestStr.ToString ());
+                    
+                   
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
                     hp.Process();
