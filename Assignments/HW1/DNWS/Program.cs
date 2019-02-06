@@ -152,13 +152,15 @@ namespace DNWS
         /// </summary>
         public void Process()
         {
+            
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
             HTTPRequest request = null;
             HTTPResponse response = null;
             byte[] bytes = new byte[1024];
             int bytesRead;
-
+            
+           
             // Read all request
             do
             {
@@ -167,6 +169,8 @@ namespace DNWS
             } while (ns.DataAvailable);
             request = new HTTPRequest(requestStr);
             request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
+            //setup remote to get ip&port from socket
+             request.setRemote(((IPEndPoint)_client.RemoteEndPoint).Address.ToString(),((IPEndPoint)_client.RemoteEndPoint).Port.ToString());
             //log request
             //_parent.Log(request.ToString());
             //_parent.Log("IP & Port :" + _client.RemoteEndPoint.ToString());
@@ -311,7 +315,6 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                   
                     // Single thread
                     hp.Process();
                     // End single therad

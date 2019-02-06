@@ -9,9 +9,12 @@ namespace DNWS
   {
     protected string _url;
     protected string _filename;
+    //save ip&port client
+    protected string _ip;
+    protected string _port;
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
-
+    
     protected string _body;
 
     protected int _status;
@@ -119,6 +122,16 @@ namespace DNWS
     public void addRequest(string key, string value)
     {
       _requestListDictionary[key.ToLower()] = value;
+    }
+    public void setRemote(string ip,string port){
+        _ip = ip;
+        _port = port;
+    }
+    public string getIP(){
+        return _ip;
+    }              
+    public string getPort(){
+        return _port;
     }
   }
 }
