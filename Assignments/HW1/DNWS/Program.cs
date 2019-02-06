@@ -169,8 +169,11 @@ namespace DNWS
             } while (ns.DataAvailable);
             request = new HTTPRequest(requestStr);
             request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
+            //new way to save client ip&port
+            request.addProperty("IP",((IPEndPoint)_client.RemoteEndPoint).Address.ToString());
+            request.addProperty("PORT",((IPEndPoint)_client.RemoteEndPoint).Port.ToString());
             //setup remote to get ip&port from socket
-             request.setRemote(((IPEndPoint)_client.RemoteEndPoint).Address.ToString(),((IPEndPoint)_client.RemoteEndPoint).Port.ToString());
+            //request.setRemote(((IPEndPoint)_client.RemoteEndPoint).Address.ToString(),((IPEndPoint)_client.RemoteEndPoint).Port.ToString());
             //log request
             //_parent.Log(request.ToString());
             //_parent.Log("IP & Port :" + _client.RemoteEndPoint.ToString());
