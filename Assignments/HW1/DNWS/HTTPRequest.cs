@@ -9,9 +9,6 @@ namespace DNWS
   {
     protected string _url;
     protected string _filename;
-    //save ip&port client
-    //protected string _ip;
-    //protected string _port;
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
     
@@ -20,7 +17,7 @@ namespace DNWS
     protected int _status;
 
     protected string _method;
-
+    private string _keyList;
     public string Url
     {
       get { return _url;}
@@ -95,6 +92,7 @@ namespace DNWS
           }
         } else { // Length == 2, GET url request
           addProperty(pair[0], pair[1]);
+           
         }
       }
     }
@@ -123,17 +121,13 @@ namespace DNWS
     {
       _requestListDictionary[key.ToLower()] = value;
     }
-    /*
-    public void setRemote(string ip,string port){
-        _ip = ip;
-        _port = port;
+
+    public string getPropertyList(){
+        List<string> keyList = new List<string>(_propertyListDictionary.Keys);
+        foreach(string temp in keyList){
+            _keyList += temp.ToString() + " | ";
+        }
+        return _keyList;
     }
-    public string getIP(){
-        return _ip;
-    }              
-    public string getPort(){
-        return _port;
-    }
-    */
   }
 }
