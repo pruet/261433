@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Web;
 
 namespace DNWS
 {
@@ -103,6 +104,7 @@ namespace DNWS
                 pi.postprocessing = section["Postprocessing"].ToLower().Equals("true");
                 pi.reference = (IPlugin) Activator.CreateInstance(Type.GetType(pi.type));
                 plugins[section["Path"]] = pi;
+                
             }
         }
 
@@ -157,15 +159,14 @@ namespace DNWS
             HTTPRequest request = null;
             HTTPResponse response = null;
             byte[] bytes = new byte[1024];
-            int bytesRead;
-
+            int bytesRead;         
+           
             // Read all request
             do
             {
                 bytesRead = ns.Read(bytes, 0, bytes.Length);
                 requestStr += Encoding.UTF8.GetString(bytes, 0, bytesRead);
             } while (ns.DataAvailable);
-
             request = new HTTPRequest(requestStr);
             request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
 
@@ -207,6 +208,7 @@ namespace DNWS
                     }
                 }
             }
+           
             // Generate response
             ns.Write(Encoding.UTF8.GetBytes(response.header), 0, response.header.Length);
             if(response.body != null) {
@@ -220,12 +222,12 @@ namespace DNWS
 
         }
     }
-
     /// <summary>
     /// Main server class, open the socket and wait for client
     /// </summary>
     public class DotNetWebServer
     {
+        
         protected int _port;
         protected Program _parent;
         protected Socket serverSocket;
@@ -270,9 +272,11 @@ namespace DNWS
                     serverSocket.Listen(5);
                     _parent.Log("Server started at port " + _port + ".");
                     //code from https://stackoverflow.com/questions/21155352/get-ip-address-of-client-machine
+                    //show IP Client.
                     IPAddress[] addr = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;                                      
-                    _parent.Log("Client IP: : " + addr[1].ToString() );
-                    break;
+                    _parent.Log("Client IP: : " + addr[1].ToString()) ;
+                 // TcpListener tcpListener =  new TcpListener(ipAddress, portNumber);                                    
+                    break;                
                 }
                 catch (Exception ex)
                 {
@@ -280,16 +284,18 @@ namespace DNWS
                     _parent.Log(ex.Message);
                 }
                 _port = _port + 1;
+                 
             }
             while (true)
             {
                 try
-                {
+                {               
                     // Wait for client
                     clientSocket = serverSocket.Accept();
                     // Get one, show some info
-                    _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
+                    _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());                   
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
+        
                     // Single thread
                     hp.Process();
                     // End single therad
@@ -298,10 +304,9 @@ namespace DNWS
                 catch (Exception ex)
                 {
                     _parent.Log("Server starting error: " + ex.Message + "\n" + ex.StackTrace);
-
                 }
             }
-        }
-     
+            
+        }      
     }
 }
