@@ -11,7 +11,7 @@ namespace DNWS
             throw new NotImplementedException();
         }
 
-        public HTTPResponse GetResponse(HTTPRequest request)
+        public HTTPResponse GetResponse(HTTPRequest request)    //600611030 teach me and give me advice
         {
             HTTPResponse response = null;
             StringBuilder sb = new StringBuilder();
