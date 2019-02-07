@@ -7,6 +7,7 @@ namespace DNWS
 {
   public class HTTPRequest
   {
+    protected string[] hold; //string to keep info 
     protected string _url;
     protected string _filename;
     protected static Dictionary<string, string> _propertyListDictionary = null;
@@ -28,7 +29,22 @@ namespace DNWS
       get { return _filename;}
     }
 
-    public string Body
+    public string Get_B //function to return Browser info
+    {
+        get { return hold[5]; }
+    }
+
+    public string Get_L //function to return Language info
+    {
+        get { return hold[8]; }
+    }
+
+    public string Get_E //function to return Encoding info
+    {
+        get { return hold[7]; }
+    }
+
+        public string Body
     {
       get {return _body;}
     }
@@ -46,6 +62,7 @@ namespace DNWS
     {
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
+      hold = lines;
 
       if(lines.Length == 0) {
         _status = 500;
