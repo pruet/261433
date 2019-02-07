@@ -57,7 +57,7 @@ namespace DNWS
         return _ip;
     }
 
-    public string MyConfig
+    public string ClientInfo
     {
         get{return data;}
     }
