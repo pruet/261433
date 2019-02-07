@@ -170,8 +170,8 @@ namespace DNWS
             request = new HTTPRequest(requestStr);
             //request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
             //new way to save client ip&port
-            request.addProperty("IP",((IPEndPoint)_client.RemoteEndPoint).Address.ToString());
-            request.addProperty("PORT",((IPEndPoint)_client.RemoteEndPoint).Port.ToString());
+            request.addProperty("RemoteEndPointIP",((IPEndPoint)_client.RemoteEndPoint).Address.ToString());
+            request.addProperty("RemoteEndPointPORT",((IPEndPoint)_client.RemoteEndPoint).Port.ToString());
             // We can handle only GET now
             if(request.Status != 200) {
                 response = new HTTPResponse(request.Status);
