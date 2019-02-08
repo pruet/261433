@@ -32,8 +32,8 @@ namespace DNWS
         {
             HTTPResponse response = null;
             StringBuilder sb = new StringBuilder();
-            string[] IPinfo = request.getPropertyByKey("RemoteEndPoint").Split(":"); //Tune 600611030 told me this solution.
-            sb.Append("<html><body><h1>Client Info</h1>");                           //These keys are also mentioned in the textbook as I looking for more info of them.
+            string[] IPinfo = request.getPropertyByKey("RemoteEndPoint").Split(":"); //600611030 told me the idea of this solution.
+            sb.Append("<html><body><h1>Client Info</h1>");                           //These keys are also in the textbook as I looking for more info of them.
             sb.Append("<div>IP Address " + IPinfo[0] + "</div>");
             sb.Append("<div>Port : " + IPinfo[1] + "</div>");
             sb.Append("<div>Browser Information : " + request.getPropertyByKey("User-Agent") + "</div>");
