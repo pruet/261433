@@ -9,7 +9,7 @@ namespace DNWS
   {
     protected string _url;
     protected string _filename;
-    protected string _info;
+    protected string _info; //declare a steeing that will contain request's information
     
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
@@ -20,7 +20,7 @@ namespace DNWS
 
     protected string _method;
     
-    public string info
+    public string info //create a function that return _info which is a string that return request's information
     {
       get { return _info; }
     }
