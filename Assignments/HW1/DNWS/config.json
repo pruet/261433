@@ -15,8 +15,8 @@
             "Preprocessing" : "false",
             "Postprocessing" :"false" 
         },
-        {
-            "Path" : "clientinfo",
+        { ///Create another Plugin for clientinfo class
+            "Path" : "clientinfo", 
             "Class" : "DNWS.clientinfoPlugin",
             "Preprocessing" : "false",
             "Postprocessing" :"false" 
