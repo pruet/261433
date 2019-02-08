@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DNWS
 {
-    class clientinfoPlugin : IPlugin
+    class clientinfoPlugin : IPlugin //create the contructor
     {
         protected static Dictionary<String, int> statDictionary = null;
         public clientinfoPlugin()
@@ -28,24 +28,32 @@ namespace DNWS
     }
     public HTTPResponse GetResponse(HTTPRequest request)
     {
-      string box= request.info;
+      string box= request.info; //use .info to return the request's information
       HTTPResponse response = null;
       StringBuilder sb = new StringBuilder();
-      string[] cli_info = request.getPropertyByKey("RemoteEndpoint").Split(':');
-      sb.Append("<html><body><p>Client IP: "+ cli_info[0] +"</p>");
+      ///SPLITTING///
+      string[] cli_info = request.getPropertyByKey("RemoteEndpoint").Split(':'); //get the information from request which are stored in the RemoteEndpoint
+      ///
+      ///DISPLAY///
+      sb.Append("<html><body><p>Client IP: "+ cli_info[0] +"</p>"); //Show the information before the colon 
+      sb.Append("</body><p>Client Port: "+ cli_info[1] +"</p></html>"); ////Show the information after the colon 
+      /////////////
       foreach (KeyValuePair<String, int> entry in statDictionary)
       {
         sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
       }
-      string[] split1 = box.Split("User-Agent:");
-      string[] split2 = box.Split("Accept-Encoding");
-      string[] split3 = box.Split("Accept-Language");
-      string[] ac_lang = split2[1].Split("Accept-Language");
-      string[] browser = split1[1].Split("Accept");
-      sb.Append("</body><p>Client Port: "+ cli_info[1] +"</p></html>");
-      sb.Append("</body><p>Browser Information: "+ browser[0] + "</p></html>");
-      sb.Append("</body><p>Acept-Language " + split3[1] + "</p></html>");
-      sb.Append("</body><p>Acept-Encoding "+ ac_lang[0] +"</p></html>");
+      ///SPLITTING///
+      string[] split1 = box.Split("User-Agent:"); //split the string at "User-Agent"
+      string[] split2 = box.Split("Accept-Encoding"); //split the string at "Accept-Encoding"
+      string[] split3 = box.Split("Accept-Language"); //split the string at "Accept-Language"
+      string[] ac_lang = split2[1].Split("Accept-Language"); //Resplit again to cut the ending part
+      string[] browser = split1[1].Split("Accept"); //Resplit again to cut the ending part
+      ////////////////
+      ///DISPLAY///
+      sb.Append("</body><p>Browser Information: "+ browser[0] + "</p></html>"); //Display the browser info -use the string that has already splited
+      sb.Append("</body><p>Acept-Language " + split3[1] + "</p></html>"); //Display the Accept-Language info -use the string that has already splited
+      sb.Append("</body><p>Acept-Encoding "+ ac_lang[0] +"</p></html>"); //Display the Accept-Encoding info -use the string that has already splited
+      /////////////
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
       return response;
