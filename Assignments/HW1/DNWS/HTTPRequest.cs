@@ -18,7 +18,14 @@ namespace DNWS
 
     protected string _method;
 
-    public string Url
+        protected string _info;
+
+        public string info
+        {
+            get { return _info; }
+        } // sugestion from 600611010
+
+        public string Url
     {
       get { return _url;}
     }
@@ -46,7 +53,7 @@ namespace DNWS
     {
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
-
+            _info = request;
       if(lines.Length == 0) {
         _status = 500;
         return;
