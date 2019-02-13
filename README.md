@@ -19,7 +19,7 @@ This course introduces the concepts of network programming and also its practica
 
 # Assignment
 1. HW 1 in elearning
-2. HW 2, [instruction](https://gist.github.com/pruet/28d2c4c5543ff35f114d73fd44c485a1) due date is 28/2/2562. Submission will be in elearning
+2. HW 2, [instruction](https://gist.github.com/pruet/28d2c4c5543ff35f114d73fd44c485a1) ,due date is 28/2/2562. Submission will be in elearning
 
 # Course Topics
 **Week 1: Overview of network programming**
