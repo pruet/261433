@@ -6,6 +6,7 @@ using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System.Web;
+using System.Threading;
 
 namespace DNWS
 {
@@ -34,7 +35,9 @@ namespace DNWS
         static void Main(string[] args)
         {
             Program p = new Program();
-            p.Start();
+            Thread thread= new Thread(new ThreadStart(p.Start));     //Creates a thread object 
+            thread.Start(); //starts the thread running
+            //p.Start();
         }
     }
 
