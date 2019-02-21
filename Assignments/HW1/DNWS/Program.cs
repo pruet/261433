@@ -291,7 +291,7 @@ namespace DNWS
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     Thread thread = new Thread(new ThreadStart(hp.Process));
                     thread.Start();
-                    Console.WriteLine("Thread {0}: Status : {1} IsAlive : {2}", Thread.CurrentThread.ManagedThreadId,  Thread.CurrentThread.ThreadState,Thread.CurrentThread.IsAlive  );
+                    Console.WriteLine("Thread {0}, Status : {1}, IsAlive : {2}", Thread.CurrentThread.ManagedThreadId,  Thread.CurrentThread.ThreadState,Thread.CurrentThread.IsAlive);
                     Thread.Sleep(1000);
                     thread.Join();     
                 }
