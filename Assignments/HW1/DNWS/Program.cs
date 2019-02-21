@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-
+using System.Threading;
 namespace DNWS
 {
     // Main class
@@ -289,10 +289,11 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    // Single thread
-                    hp.Process();
-                    // End single therad
-                 
+                    Thread thread = new Thread(new ThreadStart(hp.Process));
+                    thread.Start();
+                    Console.WriteLine("Thread {0}: Status : {1} IsAlive : {2}", Thread.CurrentThread.ManagedThreadId,  Thread.CurrentThread.ThreadState,Thread.CurrentThread.IsAlive  );
+                    Thread.Sleep(1000);
+                    thread.Join();     
                 }
                 catch (Exception ex)
                 {
