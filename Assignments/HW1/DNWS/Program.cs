@@ -6,6 +6,7 @@ using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System.Threading;
+
 namespace DNWS
 {
     // Main class
@@ -289,16 +290,16 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    Thread thread = new Thread(new ThreadStart(hp.Process));
-                    thread.Start();
-                    Console.WriteLine("Thread {0}, Status : {1}, IsAlive : {2}", Thread.CurrentThread.ManagedThreadId,  Thread.CurrentThread.ThreadState,Thread.CurrentThread.IsAlive);
-                    Thread.Sleep(1000);
-                    thread.Join();     
+                    Thread thread = new Thread(new ThreadStart(hp.Process)); //Create Thread
+                    thread.Start(); //Start Thread
+                    Console.WriteLine("Thread {0}, Status : {1}, IsAlive : {2}", thread.ManagedThreadId.ToString(), thread.ThreadState.ToString(), thread.IsAlive.ToString());
+                    Thread.Sleep(2000); //Sleep Thread for 2 sec to make one thread per connection
+                    thread.Join();
+                    Console.WriteLine("Done Job! Thread {0}, Status : {1}, IsAlive : {2}", thread.ManagedThreadId.ToString(), thread.ThreadState.ToString(), thread.IsAlive.ToString());
                 }
                 catch (Exception ex)
                 {
                     _parent.Log("Server starting error: " + ex.Message + "\n" + ex.StackTrace);
-
                 }
             }
         }
