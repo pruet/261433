@@ -292,10 +292,10 @@ namespace DNWS
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     Thread thread = new Thread(new ThreadStart(hp.Process)); //Create Thread
                     thread.Start(); //Start Thread
-                    Console.WriteLine("Thread {0}, Status : {1}, IsAlive : {2}", thread.ManagedThreadId.ToString(), thread.ThreadState.ToString(), thread.IsAlive.ToString());
-                    Thread.Sleep(2000); //Sleep Thread for 2 sec to make one thread per connection
-                    thread.Join();
-                    Console.WriteLine("Done Job! Thread {0}, Status : {1}, IsAlive : {2}", thread.ManagedThreadId.ToString(), thread.ThreadState.ToString(), thread.IsAlive.ToString());
+                    //Console.WriteLine("Thread {0}, Status : {1}, IsAlive : {2}", thread.ManagedThreadId.ToString(), thread.ThreadState.ToString(), thread.IsAlive.ToString());
+                    //Thread.Sleep(2000); //Sleep Thread for 2 sec to make one thread per connection
+                    //thread.Join();
+                    //Console.WriteLine("Done Job! Thread {0}, Status : {1}, IsAlive : {2}", thread.ManagedThreadId.ToString(), thread.ThreadState.ToString(), thread.IsAlive.ToString());
                 }
                 catch (Exception ex)
                 {
