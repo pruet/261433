@@ -50,7 +50,7 @@ namespace DNWS
             sb.Append("<div>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //Thread ID
             sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState + "</div><br>"); //Thread Status
             sb.Append("<div>Thread IsAlive : "  + Thread.CurrentThread.IsAlive + "</div><br>"); //Thread is alive or not
-            sb.Append("<div>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "</div><br>");
+            sb.Append("<div>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "</div><br>"); //Amount of threads
             sb.Append("</body></html>"); //End tag html
            
             response = new HTTPResponse(200); //200 ok
