@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Threading;
 // build clientinfoPlugin class
 namespace DNWS 
 {
@@ -42,15 +43,22 @@ namespace DNWS
             //split :User-Agent
             string[] i = lines[5].Split(':');
             //add some informations
-            sb.Append("<html><body><p>Client IP address:"+ip_port[0] + "</p>");
-            sb.Append("<p>Client Port:"+ip_port[1]+"</p>");
-            sb.Append("<p>Browser Information:"+ i[1]+"</p>");
+            //create variable name th is a thread
+            var th = Thread.CurrentThread;
+            lock (th) 
+
+            sb.Append("<html><body><p>Client IP address : "+ip_port[0] + "</p>");
+            sb.Append("<p>Client Port : "+ip_port[1]+"</p>");
+            sb.Append("<p>Browser Information : "+ i[1]+"</p>");
             sb.Append( "<p>"+ lines[8] + "</p>");
             sb.Append( "<p>"+ lines[7]+"</p>");
-            foreach (KeyValuePair<String, int> entry in statDictionary)
+            sb.Append("<p>Thread ID : " + th.ManagedThreadId + "</p>");
+            
+
+            /*foreach (KeyValuePair<String, int> entry in statDictionary)
             {
                 sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
-            }
+            }*/
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
