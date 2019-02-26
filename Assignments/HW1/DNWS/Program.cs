@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace DNWS
 {
@@ -288,7 +289,9 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
-                    hp.Process();
+                    ThreadStart childref = new ThreadStart(hp.Process);//I study some code from this web https://www.tutorialspoint.com/csharp/csharp_multithreading.htm
+                    Thread childThread = new Thread(childref);
+                    childThread.Start();
                     // End single therad
 
                 }
