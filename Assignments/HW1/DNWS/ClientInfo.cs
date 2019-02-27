@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -39,6 +41,10 @@ namespace DNWS
             sb.Append("<div>Browser Information : " + request.getPropertyByKey("User-Agent") + "</div>");
             sb.Append("<div>Accept Language : " + request.getPropertyByKey("Accept-Language") + "</div>");
             sb.Append("<div>Acccept Encoding : " + request.getPropertyByKey("Accept-Encoding") + "</div>");
+            sb.Append("<div>Thread ID : " + Thread.CurrentThread.ManagedThreadId.ToString() + "</div>"); // show thread id
+            sb.Append("<div>Thread Alive Status : " + Thread.CurrentThread.IsAlive.ToString() + "</div>"); //show thread alive status
+            sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState.ToString() + "</div>"); // show thread processing status
+            sb.Append("<div>Total Threads Running : " + Process.GetCurrentProcess().Threads.Count + "</div>"); //show total number of running threads
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());

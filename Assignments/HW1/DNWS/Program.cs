@@ -5,6 +5,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -288,9 +290,21 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
-                    hp.Process();
+                    //hp.Process();
                     // End single therad
-
+                    Thread thread = new Thread(new ThreadStart(hp.Process)); // Add a new thread
+                    thread.Start(); // Start the new thread
+                    //Console.WriteLine("This Thread ID : {0}", thread.ManagedThreadId.ToString()); // Thread ID
+                    //Console.WriteLine("State : {0}", thread.ThreadState.ToString()); // Thread status
+                    //Console.WriteLine("IsAlive : {0}", thread.IsAlive.ToString()); // Thread alive status
+                    
+                    //ProcessThreadCollection currentThread = Process.GetCurrentProcess().Threads;  // get total number
+                    //Console.WriteLine(currentThread.Count);                                       // of running threads
+                    
+                    //foreach (ProcessThread _thread in currentThread)
+                    //{
+                    //    Console.WriteLine("ID : {0}", _thread.Id.ToString()); // show all threads id but not the same as above
+                    //}                                                         // as ProcessThreadCollection and Thread are different
                 }
                 catch (Exception ex)
                 {
@@ -301,4 +315,5 @@ namespace DNWS
 
         }
     }
+
 }
