@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+
 
 namespace DNWS
 {
@@ -43,7 +45,7 @@ namespace DNWS
             sb.Append("<html><body><p>Accept Language :   "+request.getPropertyByKey("Accept-Language") + "</p>");
             sb.Append("<html><body><p>Accept Encoding :   " +request.getPropertyByKey("Accept-Encoding") + "</p>");
 
-            
+            sb.Append("<p>Thread : " +Thread.CurrentThread.ManagedThreadId);
 
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
