@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -38,7 +40,10 @@ namespace DNWS
         string ClientIPandPort = request.getip(); //Request IPandPort from client
         string[] IPandPort = Regex.Split(ClientIPandPort,":"); //Split ClientIPandPort into line with :
         sb.Append("<html><body>Client IP: "+ IPandPort[0] + "<br><br>Client Port: " + IPandPort[1]); //Show Cilent IP and Client Port
-        sb.Append("<br><br>Browser Information: " + line[5].Substring(12) + "<br><br>" + line[8] + "<br><br>" + line[7] + "</body></html>"); //Show Browser Information ,Accept Language and Accept Encoding
+        sb.Append("<br><br>Browser Information: " + line[5].Substring(12) + "<br><br>" + line[8] + "<br><br>" + line[7]); //Show Browser Information ,Accept Language and Accept Encoding
+        sb.Append("<br><br>Thread ID: " + Thread.CurrentThread.ManagedThreadId); //Show thread ID
+        sb.Append("<br><br>Thread state: " + Thread.CurrentThread.ThreadState); //Show thread state
+        sb.Append("<br><br>Current number of thread: " + Process.GetCurrentProcess().Threads.Count + "</body></html>"); //Show number of thread
         response = new HTTPResponse(200); //Response with code 200 (mean ok)
         response.body = Encoding.UTF8.GetBytes(sb.ToString());
         return response;
