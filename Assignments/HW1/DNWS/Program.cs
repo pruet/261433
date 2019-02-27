@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace DNWS
 {
@@ -290,6 +291,8 @@ namespace DNWS
                     // Single thread
                     hp.Process();
                     // End single therad
+                    Thread my_thread = new Thread(new ThreadStart(hp.Process));                      
+                    my_thread.Start();
 
                 }
                 catch (Exception ex)
