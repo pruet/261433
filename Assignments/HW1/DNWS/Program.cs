@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace DNWS
 {
@@ -168,7 +169,7 @@ namespace DNWS
 
             request = new HTTPRequest(requestStr);
             request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
-            _parent.Log(requestStr);////////////////////////////////////
+            //_parent.Log(requestStr);////////////////////////////////////
             //_parent.Log(request);
             // We can handle only GET now
             if(request.Status != 200) {
@@ -290,15 +291,18 @@ namespace DNWS
                     //_parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     _parent.Log("Client IP: " + IPAddress.Parse (((IPEndPoint)clientSocket.RemoteEndPoint).Address.ToString ()));//My friend Tune teach me his code is 600611030 he told me to learn from https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.remoteendpoint?view=netframework-4.7.2
                     _parent.Log("Client Port: " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));//My friend Tune teach me his code is 600611030 he told me to learn from https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.remoteendpoint?view=netframework-4.7.2
-                    _parent.Log("Browser " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
-                    _parent.Log("Accept Language " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
-                    _parent.Log("Accept Encoding: " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
+                    //_parent.Log("Browser " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
+                    //_parent.Log("Accept Language " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
+                    //_parent.Log("Accept Encoding: " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
                     //_parent.Log(HTTPProcessor.Process.requestStr.ToString ());
                     
                    
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
-                    hp.Process();
+                    //hp.Process();
+                    ThreadStart childref = new ThreadStart(hp.Process);//I learn some part of code from this website  https://www.tutorialspoint.com/csharp/csharp_multithreading.htm
+                    Thread childThread = new Thread(childref);
+                    childThread.Start();
                     // End single therad
 
                 }
