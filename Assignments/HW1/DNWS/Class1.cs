@@ -31,9 +31,9 @@ namespace DNWS
             sb.Append("<br>" + "Browser:" + request.getPropertyByKey("User-Agent"));
             sb.Append("<br>" + "Language:" + request.getPropertyByKey("Accept-Language"));
             sb.Append("<br>" + "Ecoding:" + request.getPropertyByKey("Accept-Encoding"));
-            sb.Append("Thread ID: " + Thread.CurrentThread.ManagedThreadId + "</br></br>");
+            sb.Append("<br>" + "Thread ID: " + Thread.CurrentThread.ManagedThreadId);
             //from 600611030 give advice me.
-            sb.Append("Amount of thread: " + Process.GetCurrentProcess().Threads.Count); 
+            sb.Append("<br>" + "Amount of thread: " + Process.GetCurrentProcess().Threads.Count); 
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());

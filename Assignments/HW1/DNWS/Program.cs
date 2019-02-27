@@ -289,7 +289,7 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
-                    hp.Process();
+                   
                     // End single therad
                     Thread my_thread = new Thread(new ThreadStart(hp.Process));                      
                     my_thread.Start();
