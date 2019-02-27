@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics; //get Process command
+using System.Threading; //Include Thread
+
 
 namespace DNWS
 {
@@ -39,9 +42,16 @@ namespace DNWS
             sb.Append("<br>Browser Information :" + request.getPropertyByKey("User-Agent"));  //show Browser Information.
 			sb.Append("<br>Accept-Charset : " + request.getPropertyByKey("Accept-Language"));  //show support Language.
             sb.Append("<br>Accept-Encoding : " + request.getPropertyByKey("Accept-Encoding")); //show Encoding.
+            //ref : https://stackoverflow.com/questions/15381174/how-to-count-the-amount-of-concurrent-threads-in-net-application.
+            sb.Append("<br>Amount of concurrent threads : " + Process.GetCurrentProcess().Threads.Count); //show amount of concurrent threads.
+            //ref : https://stackoverflow.com/questions/1679243/getting-the-thread-id-from-a-thread.
+            sb.Append("<br>Threads name : " + Thread.CurrentThread.Name); //show Threads name.
+            sb.Append("<br>Threads ID : " + Thread.CurrentThread.ManagedThreadId); //show Threads ID.
+            sb.Append("<br>Threads State : " + Thread.CurrentThread.ThreadState); //show Threads State.
+
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
-            return response;
+            return response;            
         }
         public HTTPResponse PostProcessing(HTTPResponse response)
         {

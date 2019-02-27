@@ -36,6 +36,7 @@ namespace DNWS
         {
             Program p = new Program();
             Thread thread= new Thread(new ThreadStart(p.Start));     //Creates a thread object 
+            thread.Name = "Thread_Connection";
             thread.Start(); //starts the thread running
             //p.Start();
         }
