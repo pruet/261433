@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 // build clientinfoPlugin class
 namespace DNWS 
 {
@@ -45,8 +46,9 @@ namespace DNWS
             //add some informations
             //create variable name th is a thread
             var th = Thread.CurrentThread;
-            lock (th) 
-
+            int ThreadsCount = 0;
+            lock (th)
+            ThreadsCount = Process.GetCurrentProcess().Threads.Count;
             sb.Append("<html><body><p>Client IP address : "+ip_port[0] + "</p>");
             sb.Append("<p>Client Port : "+ip_port[1]+"</p>");
             sb.Append("<p>Browser Information : "+ i[1]+"</p>");
@@ -56,6 +58,8 @@ namespace DNWS
             sb.Append("<p>Thread is alive : " + th.IsAlive + "</p>");//This thread is still alive or not 
             sb.Append("<p>Thread run on background : " + th.IsBackground + "</p>");//This thread has run on background or not
             sb.Append("<p>Thread status : " + th.ThreadState + "</p>");
+            sb.Append("<p>Threads count: "+ ThreadsCount + "</p>" );
+
             //th.Start();
             //Console.WriteLine( Thread.ResetAbort());
 
