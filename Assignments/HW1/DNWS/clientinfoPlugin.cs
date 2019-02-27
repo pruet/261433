@@ -47,7 +47,7 @@ namespace DNWS
             //create variable name th is a thread
             var th = Thread.CurrentThread;
             int ThreadsCount = 0;
-            lock (th)
+            
             ThreadsCount = Process.GetCurrentProcess().Threads.Count;
             sb.Append("<html><body><p>Client IP address : "+ip_port[0] + "</p>");
             sb.Append("<p>Client Port : "+ip_port[1]+"</p>");
