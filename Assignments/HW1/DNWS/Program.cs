@@ -317,3 +317,8 @@ namespace DNWS
     }
 
 }
+
+// self-reminder
+// cmd
+// cd to the folder contain this file
+// dotnet run Program.cs
