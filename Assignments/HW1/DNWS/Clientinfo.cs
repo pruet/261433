@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics; 
 
 namespace DNWS
 {
@@ -38,16 +40,16 @@ namespace DNWS
             string[] port_addr = request.getPropertyByKey("RemoteEndPoint").Split(":");
             HTTPResponse response = null;
             StringBuilder sb = new StringBuilder();
-            sb.Append("<html><body><h3>Client IP : "+port_addr[0]+"</h3>");
+            sb.Append("<html><body><h3>Client IP : "+port_addr[0]+"</h3>"); //Show client IP
             sb.Append("<html><body><h3>Client Port : "+port_addr[1]+"</h3>"); //600611010 suggest me to do like this
-            sb.Append("<html><body><h3>Browser Information : " + info_2[0] + "</h3>");
-            sb.Append("<html><body><h3>Accept Language : " + info_3[0] + "</h3>");
-            sb.Append("<html><body><h3>Accept Encoding : " + info_4[0] + "</h3>");
+            sb.Append("<html><body><h3>Browser Information : " + info_2[0] + "</h3>");//Show browser information
+            sb.Append("<html><body><h3>Accept Language : " + info_3[0] + "</h3>");//Show accept language
+            sb.Append("<html><body><h3>Accept Encoding : " + info_4[0] + "</h3>");//Show accept encoding
 
-
-
-          
-
+            sb.Append("<html><body><h3>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "<h3>"); //Show thread ID
+            sb.Append("<html><body><h3>Thread Status : " + Thread.CurrentThread.ThreadState + "<h3>"); //Show thread Status 
+            sb.Append("<html><body><h3>Thread IsAlive : "  + Thread.CurrentThread.IsAlive + "<h3>"); //Show thread is alive or not
+            sb.Append("<html><body><h3>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "<h3>");//Show Amount of thread
 
             foreach (KeyValuePair<String, int> entry in statDictionary)
             {
