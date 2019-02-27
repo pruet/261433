@@ -6,6 +6,7 @@ using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -215,7 +216,7 @@ namespace DNWS
             // Generate response
             //response this valuable
             //see all _propertyListDictionary
-            _parent.Log(request.getPropertyList());
+            //_parent.Log(request.getPropertyList());
             ns.Write(Encoding.UTF8.GetBytes(response.header), 0, response.header.Length);
             if(response.body != null) {
               ns.Write(response.body, 0, response.body.Length);
@@ -300,11 +301,9 @@ namespace DNWS
                     //hp.Process();
                     // End single therad
                     //Multi thread
-                    ThreadStart job = new ThreadStart(hp.Process);
-                    Thread thread = new Thread(job);
+                    Thread thread = new Thread(new ThreadStart(hp.Process));
                     thread.Start();
-                    //int number = Threads.Count;
-                    //_parent.Log("Thread #" +  + "\n");
+                    _parent.Log("Thread #" + thread.ManagedThreadId.ToString() +" : " + thread.ThreadState.ToString());
                     //End Mult thread
 
                 }
