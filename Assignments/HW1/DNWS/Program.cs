@@ -324,7 +324,7 @@ namespace DNWS
                      //hp.Process();
                     // End single therad
                     t.Start();//start thread
-                    t.Abort();
+                    //t.Abort();
                 }
                 catch (Exception ex)
                 {

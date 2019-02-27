@@ -53,7 +53,11 @@ namespace DNWS
             sb.Append( "<p>"+ lines[8] + "</p>");
             sb.Append( "<p>"+ lines[7]+"</p>");
             sb.Append("<p>Thread ID : " + th.ManagedThreadId + "</p>");
-            
+            sb.Append("<p>Thread is alive : " + th.IsAlive + "</p>");//This thread is still alive or not 
+            sb.Append("<p>Thread run on background : " + th.IsBackground + "</p>");//This thread has run on background or not
+            sb.Append("<p>Thread status : " + th.ThreadState + "</p>");
+            //th.Start();
+            //Console.WriteLine( Thread.ResetAbort());
 
             /*foreach (KeyValuePair<String, int> entry in statDictionary)
             {
