@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
+
 
 namespace DNWS
 {
@@ -25,12 +28,19 @@ namespace DNWS
       string port_client = ip_port[1];
 
       sb.Append("<html><body>");
-      sb.Append("<p1>Client IP : " +ip_client+"</p>");
-      sb.Append("<p1>Client Port : " + port_client+"</p>");
-      sb.Append("<p1>Browser Information : " + request.getPropertyByKey("User-Agent")+"</p>");
-      sb.Append("<p1>Accept Language : "+request.getPropertyByKey("Accept-Language")+"</p>");
-     
-      sb.Append("<p1>Accept Encoding : " + request.getPropertyByKey("Accept-Encoding") + "</p>");
+      sb.Append("<p>Client IP : " +ip_client+"</p>");
+      sb.Append("<p>Client Port : " + port_client+"</p>");
+      sb.Append("<p>Browser Information : " + request.getPropertyByKey("User-Agent")+"</p>");
+      sb.Append("<p>Accept Language : "+request.getPropertyByKey("Accept-Language")+"</p>");
+      sb.Append("<p>Accept Encoding : "+request.getPropertyByKey("Accept-Encoding")+"</p>");
+        
+      //tracking thread
+      sb.Append("<p>Thread-ID: " + Thread.CurrentThread.ManagedThreadId+ "</p>");//Thread-ID
+      sb.Append("<p>Thread-State: " + Thread.CurrentThread.ThreadState+ "</p>");//Status of this thread
+      sb.Append("<p>#Thread:"+ Process.GetCurrentProcess().Threads.Count+"</p>");//number of this thread on this process
+      sb.Append("<p>process-ID:"+ Process.GetCurrentProcess().Id+ "</p>");//PID
+      sb.Append("<p>process-Name:"+ Process.GetCurrentProcess().ProcessName+ "</p>");//name of this process
+
       sb.Append("</body></html>");
 
       response = new HTTPResponse(200);

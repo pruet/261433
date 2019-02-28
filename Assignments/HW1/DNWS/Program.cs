@@ -5,6 +5,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;//hw2
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -34,7 +36,9 @@ namespace DNWS
         {
             Program p = new Program();
             p.Start();
+           
         }
+    
     }
 
     /// <summary>
@@ -287,18 +291,31 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
+
                     // Single thread
-                    hp.Process();
+                    //hp.Process();
                     // End single therad
 
+                    //Muliti thread
+                    Thread multiproc = new Thread(new ThreadStart(hp.Process));//create new thread
+                    multiproc.Start();//start thread
+                    //End multithread
+       
                 }
+
                 catch (Exception ex)
                 {
                     _parent.Log("Server starting error: " + ex.Message + "\n" + ex.StackTrace);
 
                 }
+
             }
 
+          
+
         }
+        
     }
+   
+
 }
