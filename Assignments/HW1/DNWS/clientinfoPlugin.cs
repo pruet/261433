@@ -58,9 +58,9 @@ namespace DNWS
       /////////////
       ///Tracking/// ADVICE FROM 600611001
       sb.Append("<div>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //check whether 1 thread is for 1 connection or not 
-      sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState + "</div><br>");
-      sb.Append("<div>Thread IsAlive : " + Thread.CurrentThread.IsAlive + "</div><br>");
-      sb.Append("<div>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "</div><br>");
+      sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState + "</div><br>"); //Display the thread's status
+      sb.Append("<div>Thread IsAlive : " + Thread.CurrentThread.IsAlive + "</div><br>"); //Display whether thread is alive or not
+      sb.Append("<div>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "</div><br>"); //Display the numbers of thread
       //////////////  
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
