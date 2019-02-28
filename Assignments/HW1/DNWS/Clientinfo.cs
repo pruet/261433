@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Threading;
+using System.Diagnostics;
 namespace DNWS
 {
     class Clientinfo : IPlugin
@@ -21,6 +22,8 @@ namespace DNWS
             sb.Append("Browser Information: " + request.getPropertyByKey("User-Agent") + "</br></br>");
             sb.Append("Accept-Language: " + request.getPropertyByKey("Accept-Language") + "</br></br>");
             sb.Append("Accept-Encoding: " + request.getPropertyByKey("Accept-Encoding"));
+            sb.Append("Thread-ID : " + Thread.CurrentThread.ManagedThreadId + "</br></br>"); // 600611030 teach me
+            sb.Append("Amount of thread: " + Process.GetCurrentProcess().Threads.Count);
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
