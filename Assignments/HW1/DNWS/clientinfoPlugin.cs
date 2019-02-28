@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -54,6 +56,12 @@ namespace DNWS
       sb.Append("</body><p>Acept-Language " + split3[1] + "</p></html>"); //Display the Accept-Language info -use the string that has already splited
       sb.Append("</body><p>Acept-Encoding "+ ac_lang[0] +"</p></html>"); //Display the Accept-Encoding info -use the string that has already splited
       /////////////
+      ///Tracking/// ADVICE FROM 600611001
+      sb.Append("<div>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //check whether 1 thread is for 1 connection or not 
+      sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState + "</div><br>");
+      sb.Append("<div>Thread IsAlive : " + Thread.CurrentThread.IsAlive + "</div><br>");
+      sb.Append("<div>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "</div><br>");
+      //////////////  
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
       return response;
