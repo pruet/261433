@@ -6,6 +6,8 @@ using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
+using System.Threading;
+
 namespace DNWS
 {
     // Main class
@@ -33,7 +35,8 @@ namespace DNWS
         static void Main(string[] args)
         {
             Program p = new Program();
-            p.Start();
+            Thread thread= new Thread(new ThreadStart(p.Start)); 
+            thread.Start();
         }
     }
 

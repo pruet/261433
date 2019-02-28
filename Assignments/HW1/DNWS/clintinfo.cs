@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Diagnostics;
+using System.Threading;
 namespace DNWS
 {
     class clintinfo : IPlugin
@@ -19,7 +20,10 @@ namespace DNWS
             sb.Append("Client Port: " + getter[1] + "</br></br>");
             sb.Append("Browser Information: " + request.getPropertyByKey("User-Agent") + "</br></br>");
             sb.Append("Accept-Language: " + request.getPropertyByKey("Accept-Language") + "</br></br>");
-            sb.Append("Accept-Encoding: " + request.getPropertyByKey("Accept-Encoding"));
+            sb.Append("Accept-Encoding: " + request.getPropertyByKey("Accept-Encoding"));  //600611039 help me for this
+            sb.Append("</br>Threads-count: " + Process.GetCurrentProcess().Threads.Count);              
+            sb.Append("<br>Threads State : " + Thread.CurrentThread.ThreadState);
+            sb.Append("<br>Threads ID : " + Thread.CurrentThread.ManagedThreadId);
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
