@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -37,6 +39,7 @@ namespace DNWS
             string[] B = request.Get_B.Split("User-Agent: "); //keep Browser info
             string[] L = request.Get_L.Split("Accept-Language: "); //keep Language info
             string[] E = request.Get_E.Split("Accept-Encoding: "); //keep Encoding info
+           
             sb.Append("<html><body> <b>Client IP</b>: " + IP); //return ip address
             sb.Append("<br /> <b>Client Port</b>: " + Port); //return port number
             sb.Append("<br /> <b>Browser Information</b>: " + B[1]); //return port number
@@ -46,6 +49,10 @@ namespace DNWS
             {
                 sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
             }
+
+            sb.Append("<br /><br /> <b>Thread ID</b>: " + Thread.CurrentThread.ManagedThreadId); //return Thread ID
+            sb.Append("<br /><b>Process ID</b>: " + Process.GetCurrentProcess().Id); //return Process ID
+
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
