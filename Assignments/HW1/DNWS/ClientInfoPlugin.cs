@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -29,6 +31,13 @@ namespace DNWS
       sb.Append("<p>Accept-Language: " + request.getPropertyByKey("Accept-Language") + "</p>"); // Show accept-charset
       sb.Append("<p>Accept-Encoding: " + request.getPropertyByKey("Accept-Encoding") + "</p>"); // Show accept encoding
       sb.Append("</body></html>");
+      
+      Process thisProc = Process.GetCurrentProcess(); // Creates a new Process object and associates it with the currently active process
+      int ProcThread = thisProc.Threads.Count; 
+      Console.WriteLine("Threads ID : " + Thread.CurrentThread.ManagedThreadId);
+      Console.WriteLine("Threads    : " + ProcThread);
+      Console.WriteLine("PID        : " + thisProc.Id);
+
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
       return response;
