@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 
 
 namespace DNWS
@@ -40,12 +41,20 @@ namespace DNWS
                             //split ip and port by using : to seperate them  --->   ip    :   port 
 
             sb.Append("<html><body><p>Client IP :   "+ip[0]+ "</p>"); //ip
-            sb.Append("<html><body><p>Client Port :   "+ip[1] + "</p>"); //port
-            sb.Append("<html><body><p>Browser Information :  " +request.getPropertyByKey("User-Agent") + "</p>");
-            sb.Append("<html><body><p>Accept Language :   "+request.getPropertyByKey("Accept-Language") + "</p>");
-            sb.Append("<html><body><p>Accept Encoding :   " +request.getPropertyByKey("Accept-Encoding") + "</p>");
+            sb.Append("<p>Client Port :   "+ip[1] + "</p>"); //port
+            sb.Append("<p>Browser Information :  " +request.getPropertyByKey("User-Agent") + "</p>");
+            sb.Append("<p>Accept Language :   "+request.getPropertyByKey("Accept-Language") + "</p>");
+            sb.Append("<p>Accept Encoding :   " +request.getPropertyByKey("Accept-Encoding") + "</p>");
 
-            sb.Append("<p>Thread : " +Thread.CurrentThread.ManagedThreadId);
+            
+
+            sb.Append("<p>Thread ID : " +Thread.CurrentThread.ManagedThreadId +"</p>");
+            Process thispro = Process.GetCurrentProcess();  //collect process 
+            int threadnum = thispro.Threads.Count;  //count thread number
+            int thisproID = thispro.Id;             //collect process ID
+            sb.Append("<p>Process ID : " + thisproID + "</p>");     //display process ID
+            sb.Append("<p>Number of Thread : " + threadnum + "</p>");   //display thread number
+
 
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
