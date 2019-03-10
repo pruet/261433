@@ -152,7 +152,8 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        /// public void Process()
+        public void Process(object callback)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -301,10 +302,13 @@ namespace DNWS
                     //hp.Process();
                     // End single therad
                     //Multi thread
-                    Thread thread = new Thread(new ThreadStart(hp.Process));
-                    thread.Start();
-                    _parent.Log("Thread #" + thread.ManagedThreadId.ToString() +" : " + thread.ThreadState.ToString());
+                    //Thread thread = new Thread(new ThreadStart(hp.Process));
+                    //thread.Start();
+                    //_parent.Log("Thread #" + thread.ManagedThreadId.ToString() +" : " + thread.ThreadState.ToString());
                     //End Mult thread
+                    //Threads Pool
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(hp.Process));
+                    //End Threads Pool
 
                 }
                 catch (Exception ex)
