@@ -308,6 +308,12 @@ namespace DNWS
                     //End Mult thread
                     //Threads Pool
                     ThreadPool.QueueUserWorkItem(new WaitCallback(hp.Process));
+                    int worker = 0;
+                    int io = 0;
+                    ThreadPool.GetAvailableThreads(out worker, out io);
+                    Console.WriteLine("Thread pool threads available at startup: ");
+                    Console.WriteLine("   Worker threads: {0:N0}", worker);
+                    Console.WriteLine("   Asynchronous I/O threads: {0:N0}", io);
                     //End Threads Pool
 
                 }
