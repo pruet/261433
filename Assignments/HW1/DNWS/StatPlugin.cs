@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -36,6 +38,18 @@ namespace DNWS
       {
         sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
       }
+      //Show thread ref : https://stackoverflow.com/questions/5236493/active-thread-number-in-thread-pool
+      ThreadPool.GetAvailableThreads(out int worker, out int ioCompletion);
+      ThreadPool.GetMaxThreads(out int Maxworker, out int MaxioCompletion);
+      ThreadPool.GetMinThreads(out int Minworker, out int MinioCompletion);
+
+      sb.Append("<br><u><div>ThreadPool info</u></div><br>");
+      sb.Append("<div>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //Thread ID
+      sb.Append("<div>IsPoolThread : " + Thread.CurrentThread.IsThreadPoolThread + "</div><br>"); //Is pool Thread ?
+      sb.Append("<div>AvaliableThread : " + worker + "</div><br>"); //Avaliable threads
+      sb.Append("<div>ActiveThread : " + (Maxworker - worker) + "</div><br>"); //Active Threads
+      sb.Append("<div>Max. Thread size : " + Maxworker + "</div><br>"); //Maximum number of threads
+      sb.Append("<div>Min. Thread size: " + Minworker + "</div><br>");//Minimum number of threads
       sb.Append("</body></html>");
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
