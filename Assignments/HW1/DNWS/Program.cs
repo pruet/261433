@@ -150,7 +150,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -288,8 +288,7 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
-                     Thread my_thread = new Thread(new ThreadStart(hp.Process));//ref. 600611030
-                    my_thread.Start();
+                    ThreadPool.QueueUserWorkItem(hp.Process);
                     // End single therad
 
                 }
