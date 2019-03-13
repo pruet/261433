@@ -46,8 +46,6 @@ namespace DNWS
             sb.Append("<p>Accept Language :   "+request.getPropertyByKey("Accept-Language") + "</p>");
             sb.Append("<p>Accept Encoding :   " +request.getPropertyByKey("Accept-Encoding") + "</p>");
 
-            
-
             sb.Append("<p>Thread ID : " +Thread.CurrentThread.ManagedThreadId +"</p>");
             Process thispro = Process.GetCurrentProcess();  //collect process 
             int threadnum = thispro.Threads.Count;  //count thread number
@@ -55,6 +53,14 @@ namespace DNWS
             sb.Append("<p>Process ID : " + thisproID + "</p>");     //display process ID
             sb.Append("<p>Number of Thread : " + threadnum + "</p>");   //display thread number
 
+            
+            //threadpool 
+            ThreadPool.GetAvailableThreads(out int thread_available, out int io);//get available number of worker and io
+            ThreadPool.GetMaxThreads(out int max_thread,out int max_io); //get max number of worker and io
+
+            sb.Append("<p>Available Thread : " + thread_available + "</p>"); //show available thread
+            sb.Append("<p>Maximum Thread : " + max_thread + "</p>"); //show maximum thread
+            sb.Append("<p>Active Thread : " + (max_thread - thread_available) + "</p>"); //display active thread
 
             sb.Append("</body></html>");
             response = new HTTPResponse(200);

@@ -151,7 +151,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object t)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -289,16 +289,16 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
-                     //hp.Process();
+                    //hp.Process();
                     // End single therad
 
 
                     //Console.WriteLine("Thread"+Thread.CurrentThread.ThreadState);
-                    
+
                     //multi thread
-                        //multithread start
-                    Thread thread = new Thread(new ThreadStart(hp.Process));
-                    thread.Start();
+                    //multithread start
+                    // Thread thread = new Thread(new ThreadStart(hp.Process));
+                    //thread.Start();
                     /*
                     try
                     {
@@ -308,6 +308,15 @@ namespace DNWS
                     {
                         Thread.ResetAbort(); 
                     }*/
+
+                    var max = Program.Configuration.GetSection("max_thread");//get value max number threadpool from file configulation
+                    int t_max = Convert.ToInt32(max.Value); //convert maximum thread to number to get its value               
+                    
+                    //Set threadpool size
+                    
+                    ThreadPool.SetMaxThreads(t_max, t_max); //set max number of worker and Asynchronous IO 
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(hp.Process)); //execute the method by Queue when the threadpool is in the available state
+
 
                 }
                 catch (Exception ex)

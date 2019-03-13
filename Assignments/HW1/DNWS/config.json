@@ -1,25 +1,28 @@
 ﻿{
     "DocumentRoot": ".",
-    "Port": "8080",
-    "Plugins" : [
-        {
-            "Path" : "stat",
-            "Class" : "DNWS.StatPlugin",
-            "Preprocessing" : "true",
-            "Postprocessing" : "false" ,
-            "Singpleton" : "false"
-        },
-        {
-            "Path" : "ox",
-            "Class" : "DNWS.OXPlugin",
-            "Preprocessing" : "false",
-            "Postprocessing" :"false" 
-        },
-        {
-            "Path" : "clientinfo",
-            "Class" : "DNWS.ClientPlugin",
-            "Preprocessing" : "false",
-            "Postprocessing" :"false" 
-        }
-    ]
+  "Port": "8080",
+  "max_thread": "40",
+  
+  "Plugins": [
+
+    {
+      "Path": "stat",
+      "Class": "DNWS.StatPlugin",
+      "Preprocessing": "true",
+      "Postprocessing": "false",
+      "Singpleton": "false"
+    },
+    {
+      "Path": "ox",
+      "Class": "DNWS.OXPlugin",
+      "Preprocessing": "false",
+      "Postprocessing": "false"
+    },
+    {
+      "Path": "clientinfo",
+      "Class": "DNWS.ClientPlugin",
+      "Preprocessing": "false",
+      "Postprocessing": "false"
+    }
+  ]
 }
