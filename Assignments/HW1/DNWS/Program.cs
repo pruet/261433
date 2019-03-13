@@ -151,7 +151,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object State)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -291,11 +291,17 @@ namespace DNWS
                     // Single thread (Old)
                     //hp.Process(); //This is old single thread that we wont use it now.
                     // End single therad
-                    // Multi thread (New)
+                    // Multi thread (Old)
                     // Ref. docs.microsoft.com
-                    Thread thread = new Thread(new ThreadStart(hp.Process));
-                    thread.Start();
+                    //Thread thread = new Thread(new ThreadStart(hp.Process));
+                    //thread.Start();
                     // End multi thread
+                    // Pool thread (New)
+                    // Ref2. https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/ms973903(v=msdn.10) 
+                    WaitCallback callback;
+                    callback = new WaitCallback(hp.Process);
+                    ThreadPool.QueueUserWorkItem(callback);
+                    // End pool thread
                 }
                 catch (Exception ex)
                 {
