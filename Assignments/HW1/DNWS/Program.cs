@@ -162,7 +162,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process( object state)
         {
 
             NetworkStream ns = new NetworkStream(_client);
@@ -318,13 +318,14 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    //do multiple thread
-                   Thread t = new Thread(new ThreadStart(hp.Process)); //create new thread name t that run method processor 
-                      // Single thread
-                     //hp.Process();
-                    // End single therad
-                    t.Start();//start thread
-                    //t.Abort();
+
+
+                    var maxval = Program.Configuration.GetSection("MaxThreads");
+                    int max = Convert.ToInt32(maxval.Value);
+                    var minval = Program.Configuration.GetSection("MinThreads");
+                    int min = Convert.ToInt32(minval.Value);
+                    ThreadPool.QueueUserWorkItem(hp.Process);
+                    ThreadPool.SetMaxThreads(max,max);
                 }
                 catch (Exception ex)
                 {

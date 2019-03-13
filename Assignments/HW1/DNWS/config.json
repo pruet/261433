@@ -1,6 +1,8 @@
 ﻿{
-    "DocumentRoot": ".",
-    "Port": "8080",
+  "DocumentRoot": ".",
+  "Port": "8080",
+  "MaxThreads": "35",
+  "MinThreads": "6",
   "Plugins": [
     {
       "Path": "stat",
@@ -22,6 +24,6 @@
       "Postprocessing": "false",
       "Singpleton": "false"
     }
-    
+
   ]
 }

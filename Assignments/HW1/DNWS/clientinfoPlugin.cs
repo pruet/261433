@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Threading;
+
 // build clientinfoPlugin class
 namespace DNWS 
 {
@@ -47,7 +49,10 @@ namespace DNWS
             //create variable name th is a thread
             var th = Thread.CurrentThread;
             int ThreadsCount = 0;
-            
+            int worker = 0;
+            int io = 0;
+            ThreadPool.GetAvailableThreads(out worker, out io);
+
             ThreadsCount = Process.GetCurrentProcess().Threads.Count;
             sb.Append("<html><body><p>Client IP address : "+ip_port[0] + "</p>");
             sb.Append("<p>Client Port : "+ip_port[1]+"</p>");
@@ -59,6 +64,8 @@ namespace DNWS
             sb.Append("<p>Thread run on background : " + th.IsBackground + "</p>");//This thread has run on background or not
             sb.Append("<p>Thread status : " + th.ThreadState + "</p>");
             sb.Append("<p>Threads count: "+ ThreadsCount + "</p>" );
+            sb.Append("<p>Thread available: " + worker + "</p>");
+            sb.Append("<p>Asynchronous thread: " + io + "</p>");
 
             //th.Start();
             //Console.WriteLine( Thread.ResetAbort());
