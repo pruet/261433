@@ -300,6 +300,12 @@ namespace DNWS
                     // Ref2. https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/ms973903(v=msdn.10) 
                     WaitCallback callback;
                     callback = new WaitCallback(hp.Process);
+                    // Thanks to these forum for control thread information
+                    // Ref3. https://stackoverflow.com/questions/10342057/c-sharp-threadpool-limit-number-of-threads
+                    // control thread here
+                    ThreadPool.SetMinThreads(1, 1);
+                    ThreadPool.SetMaxThreads(256, 256);
+                    // control end here
                     ThreadPool.QueueUserWorkItem(callback);
                     // End pool thread
                 }
