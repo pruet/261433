@@ -306,7 +306,9 @@ namespace DNWS
                     //hp.Process();
                     // End single therad
 
-
+                    // set min-max ThreadPool
+                    ThreadPool.SetMinThreads(1, 1); 
+                    ThreadPool.SetMaxThreads(20, 5);0
 
                     //Thread thread = new Thread(new ThreadStart(hp.Process)); // Add a new thread
                     //thread.Start(); // Start the new thread
