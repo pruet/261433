@@ -28,6 +28,12 @@ namespace DNWS
             sb.Append("Accept-Encoding: " + request.getPropertyByKey("Accept-Encoding") + "</br></br>");
             sb.Append("Thread ID: " + Thread.CurrentThread.ManagedThreadId + "</br></br>");
             sb.Append("Number of Threads: " + Process.GetCurrentProcess().Threads.Count + "</br></br>");//ref https://stackoverflow.com/questions/15381174/how-to-count-the-amount-of-concurrent-threads-in-net-application
+            sb.Append("Amount of thread: " + Process.GetCurrentProcess().Threads.Count + "</br></br>");
+            ThreadPool.GetAvailableThreads(out int workerThreads, out int completionPortThreads);
+            ThreadPool.GetMaxThreads(out int max_workerThreads, out int max_completionPortThreads);
+            sb.Append("Maximum number of worker threads: " + max_workerThreads + "</br/></br>");
+            sb.Append("Available threads in thread pool: " + workerThreads + "</br></br>");    
+            sb.Append("Active threads in thread pool: " + (max_workerThreads - workerThreads) +"</br></br>");
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
