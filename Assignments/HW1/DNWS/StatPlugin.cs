@@ -35,7 +35,10 @@ namespace DNWS
       ThreadPool.GetAvailableThreads(out int workers, out int completion);
       ThreadPool.GetMaxThreads(out int a, out int b);
       StringBuilder sb = new StringBuilder();
-      sb.Append("<html><body><h1>Stat:</h1>");
+      sb.Append("<html><body><h1>Stat:</h1><br/>");
+      sb.Append("Size of Threads: " + a + "<br /><br />");
+      sb.Append("Available Threads: " + workers + "<br /><br />");
+      sb.Append("Active threads: " + (a - workers) + "<br /><br />");
       foreach (KeyValuePair<String, int> entry in statDictionary)
       {
         sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
