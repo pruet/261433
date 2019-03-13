@@ -289,6 +289,7 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
+                    ThreadPool.SetMaxThreads(50, 50);
                     ThreadPool.QueueUserWorkItem(hp.Process);//ref. 600611030
                     // End single therad
 
