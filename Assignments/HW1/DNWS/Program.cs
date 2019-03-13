@@ -291,10 +291,10 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
 
-                    //ThreadPool ref : https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/ms973903(v=msdn.10)
+                    //ThreadPool (ref : https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/ms973903(v=msdn.10)
                     WaitCallback callBack;
                     callBack = new WaitCallback(hp.Process);
-                    //control the number of thread in the system
+                    //control the number of thread in the system (ref : https://www.blackhatworld.com/seo/proper-use-of-threadpool-setmaxthreads.313686/)
                     ThreadPool.SetMinThreads(5,5);
                     ThreadPool.SetMaxThreads(20,20);
                     //ThreadPool work
