@@ -32,6 +32,11 @@ namespace DNWS
 
         public HTTPResponse GetResponse(HTTPRequest request)
         {
+            int workerThr, completionPort;
+            ThreadPool.GetAvailableThreads(out workerThr, out completionPort);
+            int maxWorker, maxComPort;
+            ThreadPool.GetMaxThreads(out maxWorker, out maxComPort);
+
             HTTPResponse response = null;
             StringBuilder sb = new StringBuilder();
             string[] IPinfo = request.getPropertyByKey("RemoteEndPoint").Split(":"); //600611030 told me the idea of this solution.
@@ -45,6 +50,8 @@ namespace DNWS
             sb.Append("<div>Thread Alive Status : " + Thread.CurrentThread.IsAlive.ToString() + "</div>"); //show thread alive status
             sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState.ToString() + "</div>"); // show thread processing status
             sb.Append("<div>Total Threads Running : " + Process.GetCurrentProcess().Threads.Count + "</div>"); //show total number of running threads
+            sb.Append("<div>Available in pool - Thread : " + workerThr + " asyncIO : " + completionPort + "</div>"); //show available thread
+            sb.Append("<div>Maximum in pool - Thread : " + maxWorker + " asyncIO : " + maxComPort + "</div>"); //show maximum thread
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
