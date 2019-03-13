@@ -294,6 +294,10 @@ namespace DNWS
                     //ThreadPool ref : https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/ms973903(v=msdn.10)
                     WaitCallback callBack;
                     callBack = new WaitCallback(hp.Process);
+                    //control the number of thread in the system
+                    ThreadPool.SetMinThreads(5,5);
+                    ThreadPool.SetMaxThreads(20,20);
+                    //ThreadPool work
                     ThreadPool.QueueUserWorkItem(callBack);
                     
                     //Multithread
