@@ -151,7 +151,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -291,8 +291,10 @@ namespace DNWS
                     // Single thread
                     //hp.Process();
                     // End single therad
-                    Thread thread = new Thread(new ThreadStart(hp.Process));
-                    thread.Start(); 
+                    //Thread thread = new Thread(new ThreadStart(hp.Process));
+                    //thread.Start();
+                    ThreadPool.SetMaxThreads(40,40);
+                    ThreadPool.QueueUserWorkItem(hp.Process);
                     
                 }
                 catch (Exception ex)
