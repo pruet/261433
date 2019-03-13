@@ -151,7 +151,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -287,22 +287,17 @@ namespace DNWS
                 {
                     // Wait for client
                     clientSocket = serverSocket.Accept();
-                    // Get one, show some info
-                    //_parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
+           
                     _parent.Log("Client IP: " + IPAddress.Parse (((IPEndPoint)clientSocket.RemoteEndPoint).Address.ToString ()));//My friend Tune teach me his code is 600611030 he told me to learn from https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.remoteendpoint?view=netframework-4.7.2
                     _parent.Log("Client Port: " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));//My friend Tune teach me his code is 600611030 he told me to learn from https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.remoteendpoint?view=netframework-4.7.2
-                    //_parent.Log("Browser " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
-                    //_parent.Log("Accept Language " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
-                    //_parent.Log("Accept Encoding: " + (((IPEndPoint)clientSocket.RemoteEndPoint).Port.ToString ()));
-                    //_parent.Log(HTTPProcessor.Process.requestStr.ToString ());
+                    
                     
                    
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
                     //hp.Process();
-                    ThreadStart childref = new ThreadStart(hp.Process);//I learn some part of code from this website  https://www.tutorialspoint.com/csharp/csharp_multithreading.htm
-                    Thread childThread = new Thread(childref);
-                    childThread.Start();
+                    ThreadPool.SetMaxThreads(50, 50);//My friend 600611030 advise me
+                    ThreadPool.QueueUserWorkItem(hp.Process);
                     // End single therad
 
                 }
