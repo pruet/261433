@@ -26,7 +26,6 @@ namespace DNWS
       string[] ip_port = request.getPropertyByKey("RemoteEndPoint").Split(":");
       string ip_client = ip_port[0];
       string port_client = ip_port[1];
-
       sb.Append("<html><body>");
       sb.Append("<p>Client IP : " +ip_client+"</p>");
       sb.Append("<p>Client Port : " + port_client+"</p>");
@@ -41,7 +40,9 @@ namespace DNWS
       sb.Append("<p>process-ID:"+ Process.GetCurrentProcess().Id+ "</p>");//PID
       sb.Append("<p>process-Name:"+ Process.GetCurrentProcess().ProcessName+ "</p>");//name of this process
 
-      sb.Append("</body></html>");
+           
+
+            sb.Append("</body></html>");
 
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());

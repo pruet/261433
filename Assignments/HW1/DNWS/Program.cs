@@ -154,7 +154,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -297,10 +297,22 @@ namespace DNWS
                     // End single therad
 
                     //Muliti thread
-                    Thread multiproc = new Thread(new ThreadStart(hp.Process));//create new thread
-                    multiproc.Start();//start thread
+                    //Thread multiproc = new Thread(new ThreadStart(hp.Process));//create new thread
+                    //multiproc.Start();//start thread
                     //End multithread
-       
+
+                    var sectionMin = Program.Configuration.GetSection("MinThread");//get minthread from config
+                    var sectionMax = Program.Configuration.GetSection("MaxThread");//get maxthread from config
+                    int MaxThread = Convert.ToInt32(sectionMax.Value);
+                    int MinThread = Convert.ToInt32(sectionMin.Value);
+
+
+
+                    ThreadPool.SetMaxThreads(MaxThread,MaxThread);//set Max#worker/IO threadpool
+                    ThreadPool.SetMinThreads(MinThread,MinThread);//set Min#worker/IO threadpool
+                    
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(hp.Process));//execute the method when threadpool is available by queues
+                   
                 }
 
                 catch (Exception ex)
@@ -315,7 +327,8 @@ namespace DNWS
 
         }
         
+        
     }
-   
 
+    
 }
