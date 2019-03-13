@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -30,6 +32,8 @@ namespace DNWS
     public HTTPResponse GetResponse(HTTPRequest request)
     {
       HTTPResponse response = null;
+      ThreadPool.GetAvailableThreads(out int workers, out int completion);
+      ThreadPool.GetMaxThreads(out int a, out int b);
       StringBuilder sb = new StringBuilder();
       sb.Append("<html><body><h1>Stat:</h1>");
       foreach (KeyValuePair<String, int> entry in statDictionary)
