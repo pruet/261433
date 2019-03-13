@@ -45,6 +45,16 @@ namespace DNWS
         //sb.Append("<br><br>Thread ID: " + Thread.CurrentThread.ManagedThreadId); //Show thread ID
         //sb.Append("<br><br>Thread state: " + Thread.CurrentThread.ThreadState); //Show thread state
         //sb.Append("<br><br>Current number of thread: " + Process.GetCurrentProcess().Threads.Count); //Show number of thread
+        //Below these will be thread pool information showing which the code is guide by these reference
+        //Ref. https://stackoverflow.com/questions/5236493/active-thread-number-in-thread-pool
+        ThreadPool.GetAvailableThreads(out available, out ioCompletion);
+        ThreadPool.GetMinThreads(out Minworker, out MinioCompletion);
+        ThreadPool.GetMaxThreads(out Maxworker, out MaxioCompletion);
+        sb.Append("<br><br>Thread ID: " + Thread.CurrentThread.ManagedThreadID);
+        sb.Append("<br><br>Min Thread: " + Minworker);
+        sb.Append("<br><br>Max Thread: " + Maxworker);
+        sb.Append("<br><br>Available Thread: " + available);
+        sb.Append("<br><br>Current running Thread: " + (Maxworker - available));
         sb.Append("</body></html>");
         response = new HTTPResponse(200); //Response with code 200 (mean ok)
         response.body = Encoding.UTF8.GetBytes(sb.ToString());
