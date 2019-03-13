@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 
+
 namespace DNWS
 {
     class clientinfoPlugin : IPlugin //create the contructor
@@ -57,14 +58,23 @@ namespace DNWS
       sb.Append("</body><p>Acept-Encoding "+ ac_lang[0] +"</p></html>"); //Display the Accept-Encoding info -use the string that has already splited
       /////////////
       ///Tracking/// ADVICE FROM 600611001
-      sb.Append("<div>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //check whether 1 thread is for 1 connection or not 
-      sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState + "</div><br>"); //Display the thread's status
-      sb.Append("<div>Thread IsAlive : " + Thread.CurrentThread.IsAlive + "</div><br>"); //Display whether thread is alive or not
+      //sb.Append("<div>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //check whether 1 thread is for 1 connection or not 
+      //sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState + "</div><br>"); //Display the thread's status
+      //sb.Append("<div>Thread IsAlive : " + Thread.CurrentThread.IsAlive + "</div><br>"); //Display whether thread is alive or not
+
+       
       sb.Append("<div>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "</div><br>"); //Display the numbers of thread
+      ThreadPool.GetAvailableThreads(out int available, out int io);
+      ThreadPool.GetMaxThreads(out int maximum_thread, out int completionPortThreads);
+      //sb.Append("<div>Number of threads : " +  + "</div><br>");
       //////////////  
+      sb.Append("<div>Number of available threads: " + available + "</div><br>"); //Show available number of thread
+      sb.Append("<div>Number of maximum usable threads: " + maximum_thread + "</div><br>"); //Show maximum usable thread
+      sb.Append("<div>Number of active threads: " + (maximum_thread - available) + "</div><br>"); //Show active thread
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
       return response;
+      
     }
 
     public HTTPResponse PostProcessing(HTTPResponse response)

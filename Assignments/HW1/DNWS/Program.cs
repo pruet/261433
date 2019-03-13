@@ -151,7 +151,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -288,11 +288,21 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    Thread thread = new Thread(new ThreadStart(hp.Process)); //create thread advice from 600611001
+                    //Thread thread = new Thread(new ThreadStart(hp.Process)); //create thread advice from 600611001
                     // Single thread
                     //hp.Process();
                     // End single therad
-                    thread.Start();
+                    //thread.Start();
+                    var valuemax = Program.Configuration.GetSection("sizethread"); //get value from sizethread
+                    int max = Convert.ToInt32(valuemax.Value); //convert the number in "sizethread" to integer
+                  
+                    //Set treadpool size
+                    //ThreadPool.SetMinThreads(min, min);
+                    ThreadPool.SetMaxThreads(max, max);
+                    //Implement SetMaxThreads (int workerThreads, int completionPortThreads);
+                    //ThreadPool.SetMaxThreads(10, 10); 
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(hp.Process)); //Create thread pool
+                    
 
                 }
                 catch (Exception ex)
