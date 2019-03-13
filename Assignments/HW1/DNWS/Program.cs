@@ -290,8 +290,8 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                   
-                    //ThreadPool
+
+                    //ThreadPool ref : https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/ms973903(v=msdn.10)
                     WaitCallback callBack;
                     callBack = new WaitCallback(hp.Process);
                     ThreadPool.QueueUserWorkItem(callBack);
