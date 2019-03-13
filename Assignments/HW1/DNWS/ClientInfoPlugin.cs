@@ -47,10 +47,11 @@ namespace DNWS
             sb.Append("<div>Browser Information" + lines[5].Substring(10) + "</div><br>"); //Browser Information
             sb.Append("<div>" + lines[8] + "</div><br>"); //Accept Language
             sb.Append("<div>" + lines[7] + "</div><br>"); //Accpet Encoding
-            sb.Append("<div>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //Thread ID
-            sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState + "</div><br>"); //Thread Status
-            sb.Append("<div>Thread IsAlive : "  + Thread.CurrentThread.IsAlive + "</div><br>"); //Thread is alive or not
-            sb.Append("<div>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "</div><br>"); //Amount of threads
+            //Show thread of client
+            //sb.Append("<div>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //Thread ID
+            //sb.Append("<div>Thread Status : " + Thread.CurrentThread.ThreadState + "</div><br>"); //Thread Status
+            //sb.Append("<div>Thread IsAlive : "  + Thread.CurrentThread.IsAlive + "</div><br>"); //Thread is alive or not
+            //sb.Append("<div>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "</div><br>"); //Amount of threads
             sb.Append("</body></html>"); //End tag html
            
             response = new HTTPResponse(200); //200 ok
