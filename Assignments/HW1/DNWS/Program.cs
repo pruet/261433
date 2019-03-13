@@ -295,8 +295,13 @@ namespace DNWS
                     WaitCallback callBack;
                     callBack = new WaitCallback(hp.Process);
                     //control the number of thread in the system (ref : https://www.blackhatworld.com/seo/proper-use-of-threadpool-setmaxthreads.313686/)
-                    ThreadPool.SetMinThreads(5,5);
-                    ThreadPool.SetMaxThreads(20,20);
+                    var valuemax = Program.Configuration.GetSection("SetMaxThreads");
+                    int max = Convert.ToInt32(valuemax.Value);
+                    var valuemin = Program.Configuration.GetSection("SetMinThreads");
+                    int min = Convert.ToInt32(valuemin.Value);
+                    //Set treadpool size
+                    ThreadPool.SetMinThreads(min,min);
+                    ThreadPool.SetMaxThreads(max,max);
                     //ThreadPool work
                     ThreadPool.QueueUserWorkItem(callBack);
                     
