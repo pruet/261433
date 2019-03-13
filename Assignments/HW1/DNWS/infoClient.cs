@@ -37,8 +37,8 @@ namespace DNWS
         {
             HTTPResponse response = null;
             StringBuilder sb = new StringBuilder();
-            int worker = new int[2];
-            int io = new int[2];
+            int[] worker = new int[2];
+            int[] io = new int[2];
             ThreadPool.GetAvailableThreads(out worker[0], out io[0]);
             ThreadPool.GetMaxThreads(out worker[1],out io[1]);
             try{
@@ -53,11 +53,11 @@ namespace DNWS
                 sb.Append("Amount of Threads: " + Process.GetCurrentProcess().Threads.Count + "<br />"); //cann't be used in program.cs because having a instance same as namespace;
                 sb.Append("<h4>Threads Available</h4>");
                 sb.Append("<table style='border: 1px solid black;'><tr style='border: 1px solid black;'><th style='border: 1px solid black;'>Worker threads</th><th style='border: 1px solid black;'>Asynchronous I/O threads</th></tr>");
-                sb.Append("<tr style='border: 1px solid black;'><td style='border: 1px solid black;'>" + worker[0] + "</td><td style='border: 1px solid black;'>" + io[1] + "</td></tr></table>");
+                sb.Append("<tr style='border: 1px solid black;'><td style='border: 1px solid black;'>" + worker[0].ToString() + "</td><td style='border: 1px solid black;'>" + io[0].ToString() + "</td></tr></table>");
                 sb.Append("<br />");
                 sb.Append("<h4>Threads running</h4>");
                 sb.Append("<table style='border: 1px solid black;'><tr style='border: 1px solid black;'><th style='border: 1px solid black;'>Worker threads</th><th style='border: 1px solid black;'>Asynchronous I/O threads</th></tr>");
-                sb.Append("<tr style='border: 1px solid black;'><td style='border: 1px solid black;'>" + worker[1]-worker[0] + "</td><td style='border: 1px solid black;'>" + io[1]-io[0] + "</td></tr></table>");
+                sb.Append("<tr style='border: 1px solid black;'><td style='border: 1px solid black;'>" + (worker[1]-worker[0]).ToString() + "</td><td style='border: 1px solid black;'>" + (io[1]-io[0]).ToString() + "</td></tr></table>");
                 sb.Append("<br />");
                 sb.Append("</body></html>");
                 response = new HTTPResponse(200);
