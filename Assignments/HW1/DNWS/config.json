@@ -1,6 +1,10 @@
 ﻿{
     "DocumentRoot": ".",
     "Port": "8080",
+    //Fix max and min size of threadPool
+    //guided by 600611001
+    "SetMaxThreads" : "20",
+    "SetMinThreads" : "5",
     "Plugins" : [
         {
             "Path" : "stat",
