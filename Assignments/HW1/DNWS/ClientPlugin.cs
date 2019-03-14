@@ -24,8 +24,8 @@ namespace DNWS
         {
             HTTPResponse response = null;
             StringBuilder sb = new StringBuilder();
-            ThreadPool.GetAvailableThreads(worker, io);
-            ThreadPool.GetMaxThreads(out workerThreads, out portThreads);
+            ThreadPool.GetAvailableThreads(out int worker, out int io);
+            ThreadPool.GetMaxThreads(out int workerThreads, out int portThreads);
             string[] ip_port = request.getPropertyByKey("RemoteEndPoint").Split(':');//this file 600611030 teach me ;
             sb.Append("<html><body>" + "Client IP: " + ip_port[0]);
             sb.Append("<br>" + "Client Port: " + ip_port[1]);
