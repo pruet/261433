@@ -49,11 +49,11 @@ namespace DNWS
             sb.Append("<html><body><h4>Accept Encoding: " + EncodeAcc[0] + "</h4>");
 
             //HW2 guided by 600611001//
-            sb.Append("<div>threadID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //tell that there is only one thread for one connection
-            sb.Append("<div>threadState : " + Thread.CurrentThread.ThreadState + "</div><br>"); //print status of the trade
-            sb.Append("<div>Thread_IsAlive : " + Thread.CurrentThread.IsAlive + "</div><br>"); //tell that if thread is working
-            sb.Append("<div>Number_of_thread : " + Process.GetCurrentProcess().Threads.Count + "</div><br>"); //tell that how many thread there are
-
+            //sb.Append("<div>threadID : " + Thread.CurrentThread.ManagedThreadId + "</div><br>"); //tell that there is only one thread for one connection
+            //sb.Append("<div>threadState : " + Thread.CurrentThread.ThreadState + "</div><br>"); //print status of the trade
+            //sb.Append("<div>Thread_IsAlive : " + Thread.CurrentThread.IsAlive + "</div><br>"); //tell that if thread is working
+            //sb.Append("<div>Number_of_thread : " + Process.GetCurrentProcess().Threads.Count + "</div><br>"); //tell that how many thread there are
+            
             foreach (KeyValuePair<String, int> entry in statDictionary)
             {
                 sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");

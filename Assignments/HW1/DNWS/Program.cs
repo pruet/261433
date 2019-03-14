@@ -289,11 +289,16 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
-                    ThreadPool.QueueUserWorkItem(hp.Process);
+                    
                     //Thread thread = new Thread(new ThreadStart(hp.Process)); //to create a new thread //from msdn.microsoft and 600611001//
                     //hp.Process();
                     // End single therad
                     //thread.Start();
+
+                    //HW3
+                    WaitCallback callBack;
+                    callBack = new WaitCallback(hp.Process);
+                    ThreadPool.QueueUserWorkItem(hp.Process);
 
                 }
                 catch (Exception ex)
