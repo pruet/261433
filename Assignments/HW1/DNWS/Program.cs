@@ -298,6 +298,10 @@ namespace DNWS
                     //HW3
                     WaitCallback callBack;
                     callBack = new WaitCallback(hp.Process);
+                    //Set ThreadPool size taught by 600611001
+                    ThreadPool.SetMinThreads(min, min);
+                    ThreadPool.SetMaxThreads(max, max);
+                    //work
                     ThreadPool.QueueUserWorkItem(hp.Process);
 
                 }
