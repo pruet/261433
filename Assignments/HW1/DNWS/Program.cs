@@ -153,7 +153,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)     //1039 idea
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -284,15 +284,16 @@ namespace DNWS
             while (true)
             {
                 try
-                {
+                {//1039 teah me
                     // Wait for client
                     clientSocket = serverSocket.Accept();
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    // Single thread
-                    hp.Process();
-                    // End single therad
+                     ThreadPool.SetMaxThreads(100, 0); //set max values of ThreadPool.    
+                    ThreadPool.SetMinThreads(1, 0); //set min values of ThreadPool.
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(hp.Process)); // Queue the task.
+                 
 
                 }
                 catch (Exception ex)
