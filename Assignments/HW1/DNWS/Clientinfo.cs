@@ -46,10 +46,10 @@ namespace DNWS
             sb.Append("<html><body><h3>Accept Language : " + info_3[0] + "</h3>");//Show accept language
             sb.Append("<html><body><h3>Accept Encoding : " + info_4[0] + "</h3>");//Show accept encoding
 
-            sb.Append("<html><body><h3>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "<h3>"); //Show thread ID
+            /*sb.Append("<html><body><h3>CurrentThread ID : " + Thread.CurrentThread.ManagedThreadId + "<h3>"); //Show thread ID
             sb.Append("<html><body><h3>Thread Status : " + Thread.CurrentThread.ThreadState + "<h3>"); //Show thread Status 
             sb.Append("<html><body><h3>Thread IsAlive : "  + Thread.CurrentThread.IsAlive + "<h3>"); //Show thread is alive or not
-            sb.Append("<html><body><h3>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "<h3>");//Show Amount of thread
+            sb.Append("<html><body><h3>Number of threads : " + Process.GetCurrentProcess().Threads.Count + "<h3>");//Show Amount of thread*/
 
             foreach (KeyValuePair<String, int> entry in statDictionary)
             {
