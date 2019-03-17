@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Net.Sockets;
 using System.Threading;
-using System.Net;
-using System.IO;
+using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Linq;
 
 namespace DNWS
 {
@@ -34,6 +33,11 @@ namespace DNWS
             sb.Append("<br>" + "Thread ID: " + Thread.CurrentThread.ManagedThreadId);
             //from 600611030 give advice me.
             sb.Append("<br>" + "Amount of thread: " + Process.GetCurrentProcess().Threads.Count); 
+            ThreadPool.GetAvailableThreads(out int workerThreads, out int completionPortThreads);
+            ThreadPool.GetMaxThreads(out int max_workerThreads, out int max_completionPortThreads);
+            sb.Append("<br>" + "Size of thread: " + max_workerThreads);
+            sb.Append("<br>" + "Available thread " + workerThreads);
+            sb.Append("<br>" + "Active thread: " + (max_workerThreads-workerThreads));
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
