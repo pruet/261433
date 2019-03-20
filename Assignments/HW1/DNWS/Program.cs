@@ -152,7 +152,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -296,10 +296,17 @@ namespace DNWS
                     //Console.Write("Thread ID: ");
                     //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
                     // End single therad
-                    
+
                     //Multiple Thread
-                    Thread thread = new Thread(new ThreadStart(hp.Process)); //create thread object
-                    thread.Start();
+                    //Thread thread = new Thread(new ThreadStart(hp.Process)); //create thread object
+                    //thread.Start();
+
+                    var valuemax = Program.Configuration.GetSection("sizethread"); //get value from sizethread
+                    int max = Convert.ToInt32(valuemax.Value); //convert the number in "sizethread" to integer
+
+                    //set treadpool size
+                    ThreadPool.SetMaxThreads(max, max);
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(hp.Process)); //create thread pool
                 }
                 catch (Exception ex)
                 {
