@@ -17,6 +17,10 @@ This course introduces the concepts of network programming and also its practica
 ## Attendance Sheet
 [Please see it here](https://o365cmu-my.sharepoint.com/:x:/g/personal/pruet_b_cmu_ac_th/EdzaiSIoDqdHt4mk362PnGMB2DkmFc8mwBjBfodfilvhIQ?e=d8MCSo)
 
+# Assignment
+1. HW 1 in elearning
+2. HW 2, [instruction](https://gist.github.com/pruet/28d2c4c5543ff35f114d73fd44c485a1) ,due date is 28/2/2562. Submission will be in elearning
+
 # Course Topics
 **Week 1: Overview of network programming**
 - Slide: Week 1 Introduction
@@ -37,27 +41,33 @@ This course introduces the concepts of network programming and also its practica
 - Assignment 1 (see elearning site)
 
 **Week 3: TCP connection**
-- Slide: Week 3 TCP
-- TCP Connection Sequence
+- Slide: Week 3 TCP 
+- TCP Connection Sequence 
 - Socket
+- Class Progress: (31/1/2562) Done week 3 slide
 
 **Week 4: TCP TCP handshaking, retransmission**
-- TBA
+- Slide: Week 4 Advanced TCP
 
 **Week 5: Multiplexing, port, buffer queue**
-- TBA
+- Slide : Week 4 Advanced TCP
+- Class Progress: (7/2/2562) Done week 4 slide
 
 **Week 6: UDP Stream**
-- TBA
+- Slide : Week 5 UDP
+- Class Progress: (14/2/2562) Done week 5 slide
 
 **Week 7: DNS, Address Tranlation, NAT, Daemon Process, Super Server**
-- TBA
+- Slide : Week 6 DNS
+- Class Progress: (18/2/2562) Done week 6 slide
 
 **Midterm exam**
-- TBA
+- 7/3/2562 9:00-12:00
 
 **Week 8: Multi-thread Programming**
-- TBA
+- Slide : Week 7 Thread
+- Slide : Week 7.1 Advanced Thread
+- Class Progress: (22/2/2562) Done slide week 7
 
 **Week 9: REST, RESTful, JSON, API**
 - TBA
