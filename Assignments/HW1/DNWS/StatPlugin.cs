@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Threading;
+using System.Diagnostics;
 namespace DNWS
 {
   class StatPlugin : IPlugin
@@ -36,7 +37,20 @@ namespace DNWS
       {
         sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
       }
-      sb.Append("</body></html>");
+          
+            // tracking thread
+            sb.Append("<p>Thread-ID: " + Thread.CurrentThread.ManagedThreadId + "</p>");//Thread-ID
+            sb.Append("<p>Thread-State: " + Thread.CurrentThread.ThreadState + "</p>");//Status of this thread
+            sb.Append("<p>#Thread:" + Process.GetCurrentProcess().Threads.Count + "</p>");//number of this thread on this process
+            sb.Append("<p>process-ID:" + Process.GetCurrentProcess().Id + "</p>");//PID
+            sb.Append("<p>process-Name:" + Process.GetCurrentProcess().ProcessName + "</p>");//name of this process
+            //Thradpool status
+            ThreadPool.GetAvailableThreads(out int wk, out int io);
+            ThreadPool.GetMaxThreads(out int Max_wk,out int Max_io);
+            sb.Append("<p>#ThreadPool(worker)" + wk + "(available)</p>");//Max #worker thread in threadpool
+            sb.Append("<p>#ThreadPool(asyn I/O)" + io + "</p>");//Max #asynchronous I/O threads in threadpool.
+            sb.Append("<p>#ThreadActives"+(Max_wk-wk)+"</p>");//#Actives threads
+            sb.Append("</body></html>");
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
       return response;

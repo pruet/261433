@@ -5,6 +5,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;//hw2
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -34,7 +36,9 @@ namespace DNWS
         {
             Program p = new Program();
             p.Start();
+           
         }
+    
     }
 
     /// <summary>
@@ -150,7 +154,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -287,18 +291,44 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
+
                     // Single thread
-                    hp.Process();
+                    //hp.Process();
                     // End single therad
 
+                    //Muliti thread
+                    //Thread multiproc = new Thread(new ThreadStart(hp.Process));//create new thread
+                    //multiproc.Start();//start thread
+                    //End multithread
+
+                    var sectionMin = Program.Configuration.GetSection("MinThread");//get minthread from config
+                    var sectionMax = Program.Configuration.GetSection("MaxThread");//get maxthread from config
+                    int MaxThread = Convert.ToInt32(sectionMax.Value);
+                    int MinThread = Convert.ToInt32(sectionMin.Value);
+
+
+
+                    ThreadPool.SetMaxThreads(MaxThread,MaxThread);//set Max#worker/IO threadpool
+                    ThreadPool.SetMinThreads(MinThread,MinThread);//set Min#worker/IO threadpool
+                    
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(hp.Process));//execute the method when threadpool is available by queues
+                   
                 }
+
                 catch (Exception ex)
                 {
                     _parent.Log("Server starting error: " + ex.Message + "\n" + ex.StackTrace);
 
                 }
+
             }
 
+          
+
         }
+        
+        
     }
+
+    
 }
