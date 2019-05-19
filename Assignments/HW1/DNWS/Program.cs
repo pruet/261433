@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace DNWS
 {
@@ -51,35 +52,44 @@ namespace DNWS
             protected bool _postprocessing;
             protected IPlugin _reference;
 
+
             public string path
             {
-                get { return _path;}
-                set {_path = value;}
+                get { return _path; }
+                set { _path = value; }
             }
             public string type
             {
-                get { return _type;}
-                set {_type = value;}
+                get { return _type; }
+                set { _type = value; }
             }
             public bool preprocessing
             {
-                get { return _preprocessing;}
-                set {_preprocessing = value;}
+                get { return _preprocessing; }
+                set { _preprocessing = value; }
             }
             public bool postprocessing
             {
-                get { return _postprocessing;}
-                set {_postprocessing = value;}
+                get { return _postprocessing; }
+                set { _postprocessing = value; }
             }
             public IPlugin reference
             {
-                get { return _reference;}
-                set {_reference = value;}
+                get { return _reference; }
+                set { _reference = value; }
             }
+
+
+
         }
         // Get config from config manager, e.g., document root and port
         protected string ROOT = Program.Configuration["DocumentRoot"];
         protected Socket _client;
+        public Socket IPclient
+        {
+            get { return _client; }
+            
+        }
         protected Program _parent;
         protected Dictionary<string, PluginInfo> plugins;
 
@@ -90,9 +100,11 @@ namespace DNWS
         /// <param name="parent">Parent ref</param>
         public HTTPProcessor(Socket client, Program parent)
         {
+
             _client = client;
             _parent = parent;
             plugins = new Dictionary<string, PluginInfo>();
+       
             // load plugins
             var sections = Program.Configuration.GetSection("Plugins").GetChildren();
             foreach(ConfigurationSection section in sections) {
@@ -150,14 +162,16 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process( object state)
         {
+
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
             HTTPRequest request = null;
             HTTPResponse response = null;
             byte[] bytes = new byte[1024];
             int bytesRead;
+
 
             // Read all request
             do
@@ -168,10 +182,11 @@ namespace DNWS
 
             request = new HTTPRequest(requestStr);
             request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
-
+            
             // We can handle only GET now
-            if(request.Status != 200) {
+            if (request.Status != 200) {
                 response = new HTTPResponse(request.Status);
+                
             }
             else
             {
@@ -189,6 +204,9 @@ namespace DNWS
                         processed = true;
                     }
                 }
+
+                
+
                 // local file
                 if(!processed) {
                     if (request.Filename.Equals(""))
@@ -200,8 +218,21 @@ namespace DNWS
                         response = getFile(ROOT + "/" + request.Filename);
                     }
                 }
+                //get IP
+                if (!processed)
+                {
+                    if (request.IPclient.Equals(""))
+                    {
+                        response = getFile(ROOT + "/index.html");
+                    }
+                    else
+                    {
+                        response = getFile(ROOT + "/" + request.IPclient);
+                    }
+                }
+
                 // post processing pipe
-                foreach(KeyValuePair<string, PluginInfo> plugininfo in plugins) {
+                foreach (KeyValuePair<string, PluginInfo> plugininfo in plugins) {
                     if(plugininfo.Value.postprocessing) {
                         response = plugininfo.Value.reference.PostProcessing(response);
                     }
@@ -287,10 +318,14 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    // Single thread
-                    hp.Process();
-                    // End single therad
 
+
+                    var maxval = Program.Configuration.GetSection("MaxThreads");
+                    int max = Convert.ToInt32(maxval.Value);
+                    var minval = Program.Configuration.GetSection("MinThreads");
+                    int min = Convert.ToInt32(minval.Value);
+                    ThreadPool.QueueUserWorkItem(hp.Process);
+                    ThreadPool.SetMaxThreads(max,max);
                 }
                 catch (Exception ex)
                 {

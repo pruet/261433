@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -31,12 +33,21 @@ namespace DNWS
     {
       HTTPResponse response = null;
       StringBuilder sb = new StringBuilder();
-      sb.Append("<html><body><h1>Stat:</h1>");
-      foreach (KeyValuePair<String, int> entry in statDictionary)
-      {
-        sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
-      }
-      sb.Append("</body></html>");
+            var th = Thread.CurrentThread;
+            int worker = 0;
+            int io = 0;
+            ThreadPool.GetAvailableThreads(out worker, out io);
+            sb.Append("<html><body><h1>Stat:</h1>");
+   
+            sb.Append("<p>Thread ID : " + th.ManagedThreadId + "</p>");
+            sb.Append("<p>Thread is alive : " + th.IsAlive + "</p>");//This thread is still alive or not 
+            sb.Append("<p>Thread run on background : " + th.IsBackground + "</p>");//This thread has run on background or not
+            sb.Append("<p>Thread status : " + th.ThreadState + "</p>");
+            sb.Append("<p>Thread available: " + worker + "</p>");
+            sb.Append("<p>Size of thread: " + io + "</p>");
+            sb.Append("<p>Active thread: " + (io - worker) + "</p>");
+            sb.Append("</body></html>");
+
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
       return response;

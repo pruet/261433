@@ -17,6 +17,18 @@ namespace DNWS
     protected int _status;
 
     protected string _method;
+    protected string _IPclient;
+
+    protected string _line; // it is equal to request
+
+    public string line // use string name line for bring infomations in request to call in clientinfoPlugin class
+        {
+            get { return _line; }
+        }
+    public string IPclient
+        {
+            get { return _IPclient; }
+        }
 
     public string Url
     {
@@ -47,13 +59,18 @@ namespace DNWS
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
 
+            _line = request;
+            _IPclient = request;
       if(lines.Length == 0) {
         _status = 500;
         return;
       }
 
       string[] statusLine = Regex.Split(lines[0], "\\s");
-      if(statusLine.Length != 4) { // too short something is wrong
+
+         
+
+      if(statusLine.Length != 4) { // too short something is wrong 
         _status = 401;
         return;
       }
@@ -84,9 +101,10 @@ namespace DNWS
 
       for(int i = 1; i != lines.Length; i++) {
         string[] pair = Regex.Split(lines[i], ": "); //FIXME
+                _IPclient = pair[pair.Length - 1];
         if(pair.Length == 0) continue;
         if(pair.Length == 1) { // handle post body
-          if(pair[0].Length > 1) { //FIXME, this is a quick hack
+          if(pair[0].Length > 1) { //FIXME, this is a quick hack 
             Dictionary<string, string> _bodys = pair[0].Split('&').Select(x => x.Split('=')).ToDictionary(x => x[0].ToLower(), x => x[1]);
             _requestListDictionary = _requestListDictionary.Concat(_bodys).ToDictionary(x=>x.Key, x=>x.Value);
           }
@@ -95,6 +113,7 @@ namespace DNWS
         }
       }
     }
+
     public string getPropertyByKey(string key)
     {
       if(_propertyListDictionary.ContainsKey(key.ToLower())) {
