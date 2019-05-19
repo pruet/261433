@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
@@ -105,7 +106,6 @@ namespace DNWS
                 plugins[section["Path"]] = pi;
             }
         }
-
         /// <summary>
         /// Get a file from local harddisk based on path
         /// </summary>
@@ -150,7 +150,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -210,7 +210,7 @@ namespace DNWS
             // Generate response
             ns.Write(Encoding.UTF8.GetBytes(response.header), 0, response.header.Length);
             if(response.body != null) {
-              ns.Write(response.body, 0, response.body.Length);
+              ns.Write(response.body, 0, response.body.Length);            
             }
 
             // Shuting down
@@ -286,11 +286,11 @@ namespace DNWS
                     clientSocket = serverSocket.Accept();
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
-                    HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    // Single thread
-                    hp.Process();
+                    HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);                                    
+                    // Single thread          
+                    ThreadPool.SetMaxThreads(50, 50);
+                    ThreadPool.QueueUserWorkItem(hp.Process);
                     // End single therad
-
                 }
                 catch (Exception ex)
                 {

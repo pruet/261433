@@ -9,11 +9,17 @@
             "Postprocessing" : "false" ,
             "Singpleton" : "false"
         },
-        {
-            "Path" : "ox",
-            "Class" : "DNWS.OXPlugin",
-            "Preprocessing" : "false",
-            "Postprocessing" :"false" 
-        }
+      {
+        "Path": "ox",
+        "Class": "DNWS.OXPlugin",
+        "Preprocessing": "false",
+        "Postprocessing": "false"
+      },
+      {
+        "Path": "clientinfo",
+        "Class": "DNWS.ClientInfo",
+        "Preprocessing": "false",
+        "Postprocessing": "false"
+      }
     ]
 }
