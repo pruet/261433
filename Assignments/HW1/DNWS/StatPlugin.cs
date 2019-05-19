@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -37,7 +39,15 @@ namespace DNWS
         sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
       }
       sb.Append("</body></html>");
-      response = new HTTPResponse(200);
+
+            //600611010 tell me
+            ThreadPool.GetAvailableThreads(out int available, out int io);
+            ThreadPool.GetMaxThreads(out int max_T, out int completionPortThreads);
+            sb.Append("<br /><br /> <b>Number of threads</b>: " + available); //return number of thread
+            sb.Append("<br /> <b>Number of available threads</b>: " + max_T); //return number of available thread
+            sb.Append("<br /> <b>Number of active threads</b>: " + (max_T - available)); //return thread which active 
+
+            response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
       return response;
     }
