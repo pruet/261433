@@ -7,5 +7,4 @@ namespace DNWS
         HTTPResponse PostProcessing(HTTPResponse response);
         HTTPResponse GetResponse(HTTPRequest request);
     }
-
 }
