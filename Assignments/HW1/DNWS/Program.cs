@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace DNWS
 {
@@ -150,7 +151,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -288,9 +289,13 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
-                    hp.Process();
+                    //hp.Process();
                     // End single therad
-
+                    //Thread thread = new Thread(new ThreadStart(hp.Process));
+                    //thread.Start();
+                    ThreadPool.SetMaxThreads(40,40);
+                    ThreadPool.QueueUserWorkItem(hp.Process);
+                    
                 }
                 catch (Exception ex)
                 {
