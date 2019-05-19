@@ -17,7 +17,11 @@ namespace DNWS
     protected int _status;
 
     protected string _method;
+    
+    protected string _ip;
 
+    protected string data;
+     
     public string Url
     {
       get { return _url;}
@@ -42,8 +46,25 @@ namespace DNWS
     {
       get {return _method;}
     }
+
+    public void setip(string ip)
+    {
+        _ip = ip;
+    }
+    
+    public string getip()
+    {
+        return _ip;
+    }
+
+    public string ClientInfo
+    {
+        get{return data;}
+    }
+
     public HTTPRequest(string request)
     {
+      data = request;
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
 
@@ -53,7 +74,7 @@ namespace DNWS
       }
 
       string[] statusLine = Regex.Split(lines[0], "\\s");
-      if(statusLine.Length != 4) { // too short something is wrong
+      if(statusLine.Length != 4) { // Fixed at HTTPResponse by add case 401
         _status = 401;
         return;
       }

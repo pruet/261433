@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace DNWS
 {
@@ -150,7 +151,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object State)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -168,7 +169,7 @@ namespace DNWS
 
             request = new HTTPRequest(requestStr);
             request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
-
+            request.setip(_client.RemoteEndPoint.ToString()); // These will setip by used function from HTTPRequest we had create
             // We can handle only GET now
             if(request.Status != 200) {
                 response = new HTTPResponse(request.Status);
@@ -287,9 +288,26 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    // Single thread
-                    hp.Process();
+                    // Single thread (Old)
+                    //hp.Process(); //This is old single thread that we wont use it now.
                     // End single therad
+                    // Multi thread (Old)
+                    // Ref. docs.microsoft.com
+                    //Thread thread = new Thread(new ThreadStart(hp.Process));
+                    //thread.Start();
+                    // End multi thread
+                    // Pool thread (New)
+                    // Ref2. https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/ms973903(v=msdn.10) 
+                    WaitCallback callback;
+                    callback = new WaitCallback(hp.Process);
+                    // Thanks to these forum for control thread information
+                    // Ref3. https://stackoverflow.com/questions/10342057/c-sharp-threadpool-limit-number-of-threads
+                    // control thread here
+                    ThreadPool.SetMinThreads(1, 1);
+                    ThreadPool.SetMaxThreads(256, 256);
+                    // control end here
+                    ThreadPool.QueueUserWorkItem(callback);
+                    // End pool thread
 
                 }
                 catch (Exception ex)
