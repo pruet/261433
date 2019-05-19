@@ -11,13 +11,13 @@ namespace DNWS
     protected string _filename;
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
-
+    
     protected string _body;
 
     protected int _status;
 
     protected string _method;
-
+    private string _keyList;
     public string Url
     {
       get { return _url;}
@@ -92,6 +92,7 @@ namespace DNWS
           }
         } else { // Length == 2, GET url request
           addProperty(pair[0], pair[1]);
+           
         }
       }
     }
@@ -119,6 +120,14 @@ namespace DNWS
     public void addRequest(string key, string value)
     {
       _requestListDictionary[key.ToLower()] = value;
+    }
+
+    public string getPropertyList(){
+        List<string> keyList = new List<string>(_propertyListDictionary.Keys);
+        foreach(string temp in keyList){
+            _keyList += temp.ToString() + " : " + this.getPropertyByKey(temp) + "\n";
+        }
+        return _keyList;
     }
   }
 }

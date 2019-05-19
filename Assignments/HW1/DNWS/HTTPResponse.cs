@@ -44,6 +44,10 @@ namespace DNWS
                     case 400:
                         headerResponse.Append("400 Bad Request");
                         break;
+                    case 401:
+                        // ref https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+                        headerResponse.Append("401 Unauthorized");
+                        break;
                     case 403:
                         headerResponse.Append("403 Forbidden");
                         break;

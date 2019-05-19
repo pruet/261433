@@ -5,6 +5,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -150,7 +152,8 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        /// public void Process()
+        public void Process(object callback)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -158,17 +161,19 @@ namespace DNWS
             HTTPResponse response = null;
             byte[] bytes = new byte[1024];
             int bytesRead;
-
+            
+           
             // Read all request
             do
             {
                 bytesRead = ns.Read(bytes, 0, bytes.Length);
                 requestStr += Encoding.UTF8.GetString(bytes, 0, bytesRead);
             } while (ns.DataAvailable);
-
             request = new HTTPRequest(requestStr);
-            request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
-
+            //request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
+            //new way to save client ip&port
+            request.addProperty("RemoteEndPointIP",((IPEndPoint)_client.RemoteEndPoint).Address.ToString());
+            request.addProperty("RemoteEndPointPORT",((IPEndPoint)_client.RemoteEndPoint).Port.ToString());
             // We can handle only GET now
             if(request.Status != 200) {
                 response = new HTTPResponse(request.Status);
@@ -190,6 +195,7 @@ namespace DNWS
                     }
                 }
                 // local file
+                
                 if(!processed) {
                     if (request.Filename.Equals(""))
                     {
@@ -207,7 +213,11 @@ namespace DNWS
                     }
                 }
             }
+     
             // Generate response
+            //response this valuable
+            //see all _propertyListDictionary
+            //_parent.Log(request.getPropertyList());
             ns.Write(Encoding.UTF8.GetBytes(response.header), 0, response.header.Length);
             if(response.body != null) {
               ns.Write(response.body, 0, response.body.Length);
@@ -238,6 +248,7 @@ namespace DNWS
             _port = port;
             _parent = parent;
             id = 0;
+            //_parent.Log("ID : " + id.ToString());
         }
 
         /// <summary>
@@ -288,8 +299,18 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
-                    hp.Process();
+                    //hp.Process();
                     // End single therad
+                    //Multi thread
+                    //Thread thread = new Thread(new ThreadStart(hp.Process));
+                    //thread.Start();
+                    //_parent.Log("Thread #" + thread.ManagedThreadId.ToString() +" : " + thread.ThreadState.ToString());
+                    //End Mult thread
+                    //Threads Pool
+                    ThreadPool.SetMaxThreads(256,256);
+                    ThreadPool.SetMinThreads(64,64);
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(hp.Process));
+                    //End Threads Pool
 
                 }
                 catch (Exception ex)
