@@ -14,6 +14,12 @@
             "Class" : "DNWS.OXPlugin",
             "Preprocessing" : "false",
             "Postprocessing" :"false" 
-        }
-    ]
-}
+        },
+      {
+        "Path": "showinfo", //Way to connect through localhost browser
+        "Class": "DNWS.ShowPlugin", //Use ShowInfo to show in browser
+        "Preprocessing": "false",
+        "Postprocessing": "false"
+      }
+  ]
+} 
