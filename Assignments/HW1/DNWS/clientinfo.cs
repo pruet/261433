@@ -1,6 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Net.Sockets;
+using System.Net;
+using System.IO;
 
 namespace DNWS
 {
@@ -20,7 +28,8 @@ namespace DNWS
             sb.Append("Client Port: " + port[1] + "</br></br>");
             sb.Append("Browser Information: " + request.getPropertyByKey("UserAgent") + "</br></br>");
             sb.Append("AcceptLanguage: " + request.getPropertyByKey("AcceptLanguage") + "</br></br>");
-            sb.Append("AcceptEncoding: " + request.getPropertyByKey("AcceptEncoding"));
+            sb.Append("AcceptEncoding: " + request.getPropertyByKey("AcceptEncoding") + "</br></br>");
+            sb.Append("Number of Thread: " + Process.GetCurrentProcess().Threads.Count +"</br></br>");
             sb.Append("</body></html>");
             response = new HTTPResponse(200);
             response.body = Encoding.UTF8.GetBytes(sb.ToString());
