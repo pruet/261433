@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace DNWS
 {
@@ -36,7 +37,16 @@ namespace DNWS
       {
         sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");
       }
-      sb.Append("</body></html>");
+
+
+            //threadpool 
+            ThreadPool.GetAvailableThreads(out int thread_available, out int io); //get available number of worker and io
+            ThreadPool.GetMaxThreads(out int max_thread, out int max_io); //get max number of worker and io
+
+            sb.Append("<p>Available Thread : " + thread_available + "</p>"); //show available thread
+            sb.Append("<p>Maximum Thread : " + max_thread + "</p>"); //show maximum thread
+            sb.Append("<p>Active Thread : " + (max_thread - thread_available) + "</p>"); //display active thread
+            sb.Append("</body></html>");
       response = new HTTPResponse(200);
       response.body = Encoding.UTF8.GetBytes(sb.ToString());
       return response;
