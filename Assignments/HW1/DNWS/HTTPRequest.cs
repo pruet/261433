@@ -18,7 +18,15 @@ namespace DNWS
 
     protected string _method;
 
-    public string Url
+        protected string _ip; //600611001 suggestion
+
+        protected string _info;
+
+
+
+        public string info;
+      
+        public string Url
     {
       get { return _url;}
     }
@@ -42,11 +50,29 @@ namespace DNWS
     {
       get {return _method;}
     }
-    public HTTPRequest(string request)
+
+    //600611006
+    public void SetIP(string ipport)
+        {
+            _ip = ipport;
+        }
+
+    public string GetIP()
+        {
+            return _ip;
+        }
+    
+    public string ClientInfo
+        {
+            get { return info; }
+        }
+
+        public HTTPRequest(string request)
     {
+            info = request;
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
-
+            _info = request;
       if(lines.Length == 0) {
         _status = 500;
         return;
