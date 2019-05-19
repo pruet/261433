@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace DNWS
 {
@@ -288,6 +289,11 @@ namespace DNWS
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
                     // Single thread
+                    Thread thread = new Thread(new ThreadStart(hp.Process)); //ref from https://stackoverflow.com/questions/6175868/c-sharp-multi-threading //600611015 and 600611005 teach me and give advice
+        {
+                    thread.IsBackground = true;
+                    thread.Start();
+                    //multi thread
                     hp.Process();
                     // End single therad
 
