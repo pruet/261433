@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace DNWS
 {
@@ -150,7 +151,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object StateInfo)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -168,7 +169,9 @@ namespace DNWS
 
             request = new HTTPRequest(requestStr);
             request.addProperty("RemoteEndPoint", _client.RemoteEndPoint.ToString());
-
+            //Pass IP and Port to HTTPrequest class
+            request.SetIP(_client.RemoteEndPoint.ToString()); //set the _ip in HTTPRequest class
+            
             // We can handle only GET now
             if(request.Status != 200) {
                 response = new HTTPResponse(request.Status);
@@ -287,18 +290,30 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    // Single thread
-                    hp.Process();
-                    // End single therad
 
+                    //ThreadPool (ref : https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/ms973903(v=msdn.10)
+                    WaitCallback callBack;
+                    callBack = new WaitCallback(hp.Process);
+                    //control the number of thread in the system (ref : https://www.blackhatworld.com/seo/proper-use-of-threadpool-setmaxthreads.313686/)
+                    var valuemax = Program.Configuration.GetSection("SetMaxThreads");
+                    int max = Convert.ToInt32(valuemax.Value);
+                    var valuemin = Program.Configuration.GetSection("SetMinThreads");
+                    int min = Convert.ToInt32(valuemin.Value);
+                    //Set treadpool size
+                    ThreadPool.SetMinThreads(min,min);
+                    ThreadPool.SetMaxThreads(max,max);
+                    //ThreadPool work
+                    ThreadPool.QueueUserWorkItem(callBack);
+                    
+                    //Multithread
+                    //Thread thread = new Thread(new ThreadStart(hp.Process)); //Create Thread
+                    //thread.Start(); //Start Thread
                 }
                 catch (Exception ex)
                 {
                     _parent.Log("Server starting error: " + ex.Message + "\n" + ex.StackTrace);
-
                 }
             }
-
         }
     }
 }

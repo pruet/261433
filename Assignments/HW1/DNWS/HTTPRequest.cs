@@ -9,15 +9,18 @@ namespace DNWS
   {
     protected string _url;
     protected string _filename;
+    protected string _ip; //for contain ip and port client
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
-
+    
     protected string _body;
 
     protected int _status;
 
     protected string _method;
 
+    protected string info;
+    
     public string Url
     {
       get { return _url;}
@@ -42,8 +45,25 @@ namespace DNWS
     {
       get {return _method;}
     }
+    //Encapsulation
+    public void SetIP (string ipport) //set ip and port to _ip
+    {
+       _ip = ipport; 
+    }
+
+    public string GetIP() //Get _ip (ip and port client)
+    {
+       return _ip;
+    }
+    
+    public string ClientInfo
+    {
+       get { return info; } //Get information of client such as Browser information
+    }
+
     public HTTPRequest(string request)
     {
+       info = request;
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
 
@@ -53,7 +73,7 @@ namespace DNWS
       }
 
       string[] statusLine = Regex.Split(lines[0], "\\s");
-      if(statusLine.Length != 4) { // too short something is wrong
+      if(statusLine.Length != 4) { // too short something is wrong (It was fixed by add 401 authorization case at HTTPResponse class)
         _status = 401;
         return;
       }
@@ -81,12 +101,11 @@ namespace DNWS
       }
 
       if(lines.Length == 1) return;
-
-      for(int i = 1; i != lines.Length; i++) {
+      for (int i = 1; i != lines.Length; i++) {
         string[] pair = Regex.Split(lines[i], ": "); //FIXME
-        if(pair.Length == 0) continue;
+        if (pair.Length == 0) continue;
         if(pair.Length == 1) { // handle post body
-          if(pair[0].Length > 1) { //FIXME, this is a quick hack
+          if(pair[0].Length > 1 ) { //FIXME, this is a quick hack
             Dictionary<string, string> _bodys = pair[0].Split('&').Select(x => x.Split('=')).ToDictionary(x => x[0].ToLower(), x => x[1]);
             _requestListDictionary = _requestListDictionary.Concat(_bodys).ToDictionary(x=>x.Key, x=>x.Value);
           }
@@ -120,5 +139,6 @@ namespace DNWS
     {
       _requestListDictionary[key.ToLower()] = value;
     }
-  }
+   
+   }
 }
