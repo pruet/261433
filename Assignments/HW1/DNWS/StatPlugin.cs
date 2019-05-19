@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DNWS
 {
@@ -31,7 +33,13 @@ namespace DNWS
     {
       HTTPResponse response = null;
       StringBuilder sb = new StringBuilder();
-      sb.Append("<html><body><h1>Stat:</h1>");
+      ThreadPool.GetAvailableThreads(out int workerThreads, out int completionPortThreads);
+      ThreadPool.GetMaxThreads(out int max_workerThreads, out int max_completionPortThreads);
+      sb.Append("<html><body><h1>Stat:</h1>"+"</br>");
+      sb.Append("Thread's Size: " + max_workerThreads + "<br/>");
+      sb.Append("Available Threads: " + workerThreads + "<br/>");    
+      sb.Append("Active threads: " + (max_workerThreads - workerThreads) +"<br/>");     
+
       foreach (KeyValuePair<String, int> entry in statDictionary)
       {
         sb.Append(entry.Key + ": " + entry.Value.ToString() + "<br />");

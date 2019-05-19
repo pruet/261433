@@ -5,6 +5,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
+
 
 namespace DNWS
 {
@@ -150,7 +152,7 @@ namespace DNWS
         /// <summary>
         /// Get a request from client, process it, then return response to client
         /// </summary>
-        public void Process()
+        public void Process(object state)
         {
             NetworkStream ns = new NetworkStream(_client);
             string requestStr = "";
@@ -287,8 +289,20 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
+                    //Thread thread = new Thread(new ThreadStart(hp.Process)); //ref from https://stackoverflow.com/questions/6175868/c-sharp-multi-threading
+                    //thread.IsBackground = true;
+                    //thread.Start();
+
+                    ////set maxinum number of worker threads and maximum number of I/O threads size (40,40)
+                    ThreadPool.SetMaxThreads(40,40); //ref from https://stackoverflow.com/questions/444627/c-sharp-thread-pool-limiting-threads
+                    ThreadPool.QueueUserWorkItem(hp.Process);
+                    //Console.WriteLine("Main thread does some work, then sleeps.");
+                    //Thread.Sleep(1000);
+                    
+                    
+                    
                     // Single thread
-                    hp.Process();
+                    //hp.Process();
                     // End single therad
 
                 }
