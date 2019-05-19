@@ -9,6 +9,7 @@ namespace DNWS
   {
     protected string _url;
     protected string _filename;
+    protected string _inf; //create new string type variable for collecting request
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
 
@@ -18,7 +19,12 @@ namespace DNWS
 
     protected string _method;
 
-    public string Url
+        public string Inf //function for return request information
+        {
+            get { return _inf; }
+        }
+
+        public string Url
     {
       get { return _url;}
     }
@@ -46,6 +52,8 @@ namespace DNWS
     {
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
+
+      _inf = request; //collect the request
 
       if(lines.Length == 0) {
         _status = 500;
