@@ -9,6 +9,8 @@ namespace DNWS
   {
     protected string _url;
     protected string _filename;
+    protected string _info; //declare a steeing that will contain request's information
+    
     protected static Dictionary<string, string> _propertyListDictionary = null;
     protected static Dictionary<string, string> _requestListDictionary = null;
 
@@ -17,6 +19,11 @@ namespace DNWS
     protected int _status;
 
     protected string _method;
+    
+    public string info //create a function that return _info which is a string that return request's information
+    {
+      get { return _info; }
+    }
 
     public string Url
     {
@@ -46,12 +53,13 @@ namespace DNWS
     {
       _propertyListDictionary = new Dictionary<string, string>();
       string[] lines = Regex.Split(request, "\\n");
-
+      _info = request;
+      
       if(lines.Length == 0) {
         _status = 500;
         return;
       }
-
+            
       string[] statusLine = Regex.Split(lines[0], "\\s");
       if(statusLine.Length != 4) { // too short something is wrong
         _status = 401;
